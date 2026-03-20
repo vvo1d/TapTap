@@ -1,0 +1,1103 @@
+/* ============================================================
+   style.css — ТапТапМиллионер
+   Тёмная бизнес-тема с золотыми акцентами
+   Mobile-first, затем расширяется для десктопа
+   ============================================================ */
+
+/* ── Утилита: скрытие элементов ─────────────────────────────── */
+.hidden { display: none !important; }
+
+/* ── Переменные ─────────────────────────────────────────────── */
+:root {
+  --bg-base:        #0a0a18;
+  --bg-card:        #12122a;
+  --bg-card-hover:  #1a1a38;
+  --bg-panel:       #0e0e22;
+  --gold:           #FFD700;
+  --gold-dim:       #B8860B;
+  --gold-light:     #FFF3A0;
+  --gold-accent:    #FFA500;
+  --green:          #2ECC71;
+  --red:            #E74C3C;
+  --text-primary:   #F0E6C8;
+  --text-secondary: #9A8B6E;
+  --text-muted:     #5A5070;
+  --border:         rgba(255,215,0,0.12);
+  --shadow:         0 4px 24px rgba(0,0,0,0.5);
+  --shadow-gold:    0 0 20px rgba(255,215,0,0.2);
+  --radius:         14px;
+  --radius-sm:      8px;
+  --transition:     0.2s ease;
+}
+
+/* ── Сброс и база ───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin:     0;
+  padding:    0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family:      'Segoe UI', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-base);
+  color:            var(--text-primary);
+  overflow-x:       hidden;
+  -webkit-tap-highlight-color: transparent;
+  /* Тонкий паттерн фона */
+  background-image: radial-gradient(circle at 20% 20%, rgba(255,215,0,0.03) 0%, transparent 60%),
+                    radial-gradient(circle at 80% 80%, rgba(255,165,0,0.03) 0%, transparent 60%);
+}
+
+/* ── Обёртка приложения ─────────────────────────────────────── */
+#app {
+  display:        flex;
+  flex-direction: column;
+  min-height:     100vh;
+  max-width:      1200px;
+  margin:         0 auto;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ШАПКА
+   ══════════════════════════════════════════════════════════════ */
+#header {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  flex-wrap:       wrap;
+  gap:             10px;
+  padding:         12px 16px;
+  background:      linear-gradient(135deg, #0e0e22 0%, #181830 100%);
+  border-bottom:   1px solid var(--border);
+  box-shadow:      var(--shadow);
+  position:        sticky;
+  top:             0;
+  z-index:         100;
+}
+
+/* Блок с монетами */
+#coin-display {
+  display:     flex;
+  align-items: baseline;
+  gap:         8px;
+}
+
+#coin-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+#coin-count {
+  font-size:   2rem;
+  font-weight: 700;
+  color:       var(--gold);
+  text-shadow: 0 0 16px rgba(255,215,0,0.4);
+  letter-spacing: -0.5px;
+  transition:  color var(--transition);
+}
+
+#coin-label {
+  font-size:  0.8rem;
+  color:      var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Доход в секунду */
+#income-display {
+  font-size:   0.9rem;
+  color:       var(--text-secondary);
+  white-space: nowrap;
+}
+
+#income-rate {
+  color:       var(--green);
+  font-weight: 600;
+}
+
+/* Кнопки шапки */
+.header-btn {
+  background:    transparent;
+  border:        1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color:         var(--text-primary);
+  cursor:        pointer;
+  font-size:     0.85rem;
+  padding:       6px 12px;
+  transition:    background var(--transition), border-color var(--transition);
+  white-space:   nowrap;
+}
+
+.header-btn:hover {
+  background:    rgba(255,215,0,0.08);
+  border-color:  rgba(255,215,0,0.35);
+}
+
+#header-actions {
+  display:     flex;
+  gap:         8px;
+  align-items: center;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ОСНОВНОЙ МАКЕТ
+   ══════════════════════════════════════════════════════════════ */
+#main {
+  display:        flex;
+  flex-direction: column;
+  flex:           1;
+  gap:            0;
+}
+
+/* ── Зона тапа ──────────────────────────────────────────────── */
+#tap-area {
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  padding:         24px 16px 16px;
+  background:      radial-gradient(ellipse at 50% 40%, rgba(255,215,0,0.06) 0%, transparent 70%);
+}
+
+#tap-canvas {
+  width:         100%;
+  max-width:     420px;
+  height:        auto;
+  aspect-ratio:  1 / 1;
+  cursor:        pointer;
+  border-radius: 50%;
+  /* Плавная отдача при нажатии */
+  transition:    transform 0.05s ease;
+  touch-action:  none;
+  /* Подсказка пользователю что это кликабельно */
+  filter:        drop-shadow(0 8px 32px rgba(255,215,0,0.25));
+}
+
+#tap-canvas:active {
+  transform: scale(0.97);
+}
+
+/* ── Боковая панель апгрейдов ───────────────────────────────── */
+#upgrades-panel {
+  border-top:  1px solid var(--border);
+  background:  var(--bg-panel);
+  padding:     16px;
+}
+
+#upgrades-panel h2 {
+  font-size:      1.1rem;
+  font-weight:    700;
+  color:          var(--gold);
+  margin-bottom:  14px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+#upgrades-list {
+  display:   flex;
+  flex-direction: column;
+  gap:       10px;
+}
+
+/* ── Карточка апгрейда ──────────────────────────────────────── */
+.upgrade-item {
+  display:       flex;
+  align-items:   center;
+  gap:           12px;
+  background:    var(--bg-card);
+  border:        1px solid var(--border);
+  border-radius: var(--radius);
+  padding:       12px 14px;
+  transition:    background var(--transition), border-color var(--transition),
+                 box-shadow var(--transition), transform var(--transition);
+  cursor:        default;
+}
+
+.upgrade-item.affordable {
+  border-color: rgba(255,215,0,0.35);
+  box-shadow:   var(--shadow-gold);
+}
+
+.upgrade-item.affordable:hover {
+  background:   var(--bg-card-hover);
+  transform:    translateY(-1px);
+}
+
+.upgrade-item.owned .upgrade-icon {
+  filter: none;
+}
+
+.upgrade-icon {
+  font-size:   2rem;
+  line-height: 1;
+  flex-shrink: 0;
+  filter:      grayscale(0.6);
+  transition:  filter var(--transition);
+}
+
+.upgrade-item.owned .upgrade-icon {
+  filter: none;
+}
+
+.upgrade-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.upgrade-name {
+  font-weight:   700;
+  font-size:     0.95rem;
+  color:         var(--text-primary);
+  margin-bottom: 2px;
+  white-space:   nowrap;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+}
+
+.upgrade-desc {
+  font-size:     0.75rem;
+  color:         var(--text-muted);
+  margin-bottom: 5px;
+  display:       none; /* скрыт на мобилке, показываем на десктопе */
+}
+
+.upgrade-stats {
+  display:     flex;
+  gap:         10px;
+  font-size:   0.78rem;
+  color:       var(--text-secondary);
+}
+
+.upgrade-level {
+  color: var(--gold-accent);
+}
+
+.upgrade-income {
+  color: var(--green);
+}
+
+.upgrade-buy {
+  display:        flex;
+  flex-direction: column;
+  align-items:    flex-end;
+  gap:            6px;
+  flex-shrink:    0;
+}
+
+.upgrade-cost {
+  font-size:   0.8rem;
+  color:       var(--gold);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.buy-btn {
+  background:    linear-gradient(135deg, #C89600, #8B6200);
+  border:        none;
+  border-radius: var(--radius-sm);
+  color:         var(--gold-light);
+  cursor:        pointer;
+  font-size:     0.8rem;
+  font-weight:   700;
+  padding:       6px 14px;
+  white-space:   nowrap;
+  transition:    background var(--transition), transform var(--transition),
+                 box-shadow var(--transition);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.buy-btn:hover:not(:disabled) {
+  background:  linear-gradient(135deg, #FFD700, #C89600);
+  color:       #1a1200;
+  box-shadow:  0 0 14px rgba(255,215,0,0.45);
+  transform:   scale(1.04);
+}
+
+.buy-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.buy-btn:disabled {
+  background:  #1e1e2e;
+  color:       var(--text-muted);
+  cursor:      not-allowed;
+  border:      1px solid #2a2a3e;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   МОДАЛКИ
+   ══════════════════════════════════════════════════════════════ */
+.modal {
+  position:        fixed;
+  inset:           0;
+  background:      rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  z-index:         1000;
+  padding:         16px;
+  transition:      opacity var(--transition);
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background:    var(--bg-card);
+  border:        1px solid rgba(255,215,0,0.25);
+  border-radius: var(--radius);
+  box-shadow:    0 8px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,215,0,0.1);
+  max-width:     560px;
+  width:         100%;
+  max-height:    90vh;
+  overflow-y:    auto;
+  padding:       28px 24px 24px;
+  position:      relative;
+}
+
+.modal-content h2 {
+  font-size:     1.5rem;
+  color:         var(--gold);
+  margin-bottom: 20px;
+  text-align:    center;
+}
+
+/* ── Модалка статистики ─────────────────────────────────────── */
+.stats-grid {
+  display:               grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:                   12px;
+  margin-bottom:         20px;
+}
+
+.stat-card {
+  background:    rgba(255,215,0,0.05);
+  border:        1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding:       14px 12px;
+  text-align:    center;
+}
+
+.stat-icon {
+  font-size:     1.6rem;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  font-size:     0.72rem;
+  color:         var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  font-size:   1rem;
+  font-weight: 700;
+  color:       var(--gold-light);
+}
+
+.businesses-title {
+  font-size:     0.95rem;
+  color:         var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.businesses-list {
+  list-style: none;
+  display:    flex;
+  flex-direction: column;
+  gap:        6px;
+  font-size:  0.9rem;
+  color:      var(--text-primary);
+}
+
+.businesses-list li {
+  padding:       8px 10px;
+  background:    rgba(255,255,255,0.03);
+  border-radius: var(--radius-sm);
+}
+
+/* ── Модалка оффлайн-прогресса ──────────────────────────────── */
+.offline-info {
+  text-align:  center;
+  line-height: 1.6;
+}
+
+.offline-info p {
+  margin-bottom: 10px;
+  color:         var(--text-secondary);
+}
+
+.offline-earned {
+  font-size:   2.2rem;
+  font-weight: 700;
+  color:       var(--gold);
+  text-shadow: 0 0 20px rgba(255,215,0,0.5);
+  display:     block;
+  margin:      12px 0;
+}
+
+/* ── Кнопки в модалках ──────────────────────────────────────── */
+.modal-btn {
+  display:       block;
+  width:         100%;
+  margin-top:    20px;
+  padding:       12px 24px;
+  background:    linear-gradient(135deg, #C89600, #8B6200);
+  border:        none;
+  border-radius: var(--radius-sm);
+  color:         var(--gold-light);
+  font-size:     1rem;
+  font-weight:   700;
+  cursor:        pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition:    background var(--transition), transform var(--transition);
+}
+
+.modal-btn:hover {
+  background: linear-gradient(135deg, #FFD700, #C89600);
+  color:      #1a1200;
+  transform:  scale(1.02);
+}
+
+/* ── Toast уведомления ──────────────────────────────────────── */
+#toast {
+  position:      fixed;
+  bottom:        20px;
+  left:          50%;
+  transform:     translateX(-50%);
+  background:    rgba(20,20,40,0.95);
+  border:        1px solid rgba(255,215,0,0.3);
+  border-radius: var(--radius-sm);
+  color:         var(--text-primary);
+  font-size:     0.9rem;
+  padding:       10px 20px;
+  z-index:       2000;
+  opacity:       0;
+  pointer-events: none;
+  white-space:   nowrap;
+  transition:    opacity 0.3s ease;
+}
+
+#toast.show {
+  opacity: 1;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   СКРОЛЛБАР
+   ══════════════════════════════════════════════════════════════ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background:    rgba(255,215,0,0.2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,215,0,0.4);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ДЕСКТОП — ≥ 768px
+   ══════════════════════════════════════════════════════════════ */
+@media (min-width: 768px) {
+  #main {
+    flex-direction: row;
+    flex:           1;
+    overflow:       hidden;
+  }
+
+  #tap-area {
+    flex:           0 0 auto;
+    width:          480px;
+    padding:        32px;
+    border-right:   1px solid var(--border);
+    /* Центрируем монету вертикально */
+    align-self:     stretch;
+    justify-content: center;
+  }
+
+  #upgrades-panel {
+    flex:       1;
+    overflow-y: auto;
+    border-top: none;
+    padding:    20px;
+  }
+
+  .upgrade-desc {
+    display: block;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  #tap-area {
+    width: 520px;
+  }
+
+  #coin-count {
+    font-size: 2.4rem;
+  }
+}
+
+/* ── Анимация покупки (pulse на карточке) ───────────────────── */
+@keyframes purchasePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(255,215,0,0.6); }
+  70%  { box-shadow: 0 0 0 14px rgba(255,215,0,0); }
+  100% { box-shadow: 0 0 0 0 rgba(255,215,0,0); }
+}
+
+.upgrade-item.just-bought {
+  animation: purchasePulse 0.5s ease-out;
+}
+
+/* ── Плавное появление элементов ────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.upgrade-item {
+  animation: fadeInUp 0.3s ease both;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   АВТОРИЗАЦИЯ — модалка
+   ══════════════════════════════════════════════════════════════ */
+
+.auth-modal-content {
+  max-width:   420px;
+  text-align:  center;
+  padding:     32px 28px 24px;
+}
+
+.auth-logo {
+  font-size:     3rem;
+  margin-bottom: 6px;
+  filter:        drop-shadow(0 0 16px rgba(255,215,0,0.4));
+}
+
+.auth-modal-content h2 {
+  font-size:     1.6rem;
+  margin-bottom: 4px;
+}
+
+.auth-subtitle {
+  font-size:     0.85rem;
+  color:         var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+/* Вкладки */
+.auth-tabs {
+  display:       flex;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+  gap:           0;
+}
+
+.auth-tab {
+  flex:           1;
+  background:     transparent;
+  border:         none;
+  color:          var(--text-secondary);
+  cursor:         pointer;
+  font-size:      0.9rem;
+  font-weight:    600;
+  padding:        10px 0;
+  border-bottom:  2px solid transparent;
+  transition:     color var(--transition), border-color var(--transition);
+  letter-spacing: 0.02em;
+}
+
+.auth-tab.active {
+  color:         var(--gold);
+  border-color:  var(--gold);
+}
+
+.auth-tab:hover:not(.active) {
+  color: var(--text-primary);
+}
+
+/* Форма */
+.auth-form {
+  display:        flex;
+  flex-direction: column;
+  gap:            14px;
+  text-align:     left;
+}
+
+.auth-field {
+  display:        flex;
+  flex-direction: column;
+  gap:            5px;
+}
+
+.auth-field label {
+  font-size:   0.78rem;
+  color:       var(--text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.auth-field input {
+  background:    rgba(255,255,255,0.04);
+  border:        1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color:         var(--text-primary);
+  font-size:     0.95rem;
+  outline:       none;
+  padding:       10px 14px;
+  transition:    border-color var(--transition), box-shadow var(--transition);
+  width:         100%;
+}
+
+.auth-field input:focus {
+  border-color: rgba(255,215,0,0.5);
+  box-shadow:   0 0 0 3px rgba(255,215,0,0.1);
+}
+
+.auth-field input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Кнопка отправки */
+.auth-submit {
+  margin-top: 4px;
+}
+
+/* Ошибка */
+.auth-error {
+  background:    rgba(231,76,60,0.12);
+  border:        1px solid rgba(231,76,60,0.3);
+  border-radius: var(--radius-sm);
+  color:         #ff6b6b;
+  font-size:     0.85rem;
+  margin-top:    12px;
+  padding:       10px 14px;
+  text-align:    center;
+}
+
+/* Гость */
+.auth-guest-btn {
+  background:  transparent;
+  border:      none;
+  color:       var(--text-secondary);
+  cursor:      pointer;
+  font-size:   0.88rem;
+  margin-top:  18px;
+  padding:     0;
+  transition:  color var(--transition);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.auth-guest-btn:hover {
+  color: var(--text-primary);
+}
+
+.auth-guest-note {
+  color:     var(--text-muted);
+  font-size: 0.72rem;
+  margin-top: 6px;
+}
+
+/* ── Пользователь в шапке ────────────────────────────────────── */
+
+.header-user {
+  font-size:  0.82rem;
+  color:      var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ПРОГРЕСС-БАРЫ И ТАЙМЕРЫ БИЗНЕСОВ
+   ══════════════════════════════════════════════════════════════ */
+
+.upgrade-progress-wrap {
+  display:     flex;
+  align-items: center;
+  gap:         8px;
+  margin:      6px 0 4px;
+}
+
+.upgrade-progress-bar {
+  flex:          1;
+  height:        5px;
+  background:    rgba(255,255,255,0.07);
+  border-radius: 3px;
+  overflow:      hidden;
+}
+
+.upgrade-progress-fill {
+  height:        100%;
+  width:         0%;
+  background:    linear-gradient(90deg, var(--gold-dim), var(--gold));
+  border-radius: 3px;
+  transition:    width 0.25s linear;
+}
+
+/* Готов к выплате */
+.upgrade-item.payout-ready .upgrade-progress-fill {
+  background: linear-gradient(90deg, #27AE60, #2ECC71);
+  animation:  payoutPulse 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes payoutPulse {
+  from { opacity: 0.75; }
+  to   { opacity: 1; }
+}
+
+.upgrade-timer-label {
+  font-size:   0.7rem;
+  color:       var(--text-muted);
+  white-space: nowrap;
+  min-width:   52px;
+  text-align:  right;
+  font-variant-numeric: tabular-nums;
+}
+
+.upgrade-item.payout-ready .upgrade-timer-label {
+  color:       var(--green);
+  font-weight: 700;
+}
+
+/* ── Заголовки тиров ────────────────────────────────────────── */
+.tier-header {
+  color:          var(--text-muted);
+  font-size:      0.72rem;
+  font-weight:    700;
+  letter-spacing: 0.06em;
+  margin:         16px 0 6px;
+  padding:        4px 0;
+  text-transform: uppercase;
+  border-bottom:  1px solid var(--border);
+}
+
+.tier-header:first-child {
+  margin-top: 0;
+}
+
+/* ── Анимация выплаты ───────────────────────────────────────── */
+@keyframes payoutFlash {
+  0%   { background: rgba(255,215,0,0.2); box-shadow: 0 0 0 2px rgba(255,215,0,0.6); }
+  100% { background: var(--bg-card);      box-shadow: none; }
+}
+
+.upgrade-item.payout-flash {
+  animation: payoutFlash 0.7s ease-out;
+}
+
+/* Всплывающий текст «+X» на карточке */
+.payout-float {
+  position:       absolute;
+  top:            6px;
+  right:          8px;
+  color:          var(--gold);
+  font-size:      0.85rem;
+  font-weight:    700;
+  pointer-events: none;
+  z-index:        20;
+  text-shadow:    0 1px 4px rgba(0,0,0,0.6);
+  animation:      payoutFloatUp 0.9s ease-out forwards;
+}
+
+@keyframes payoutFloatUp {
+  0%   { opacity: 1; transform: translateY(0)    scale(1); }
+  60%  { opacity: 1; transform: translateY(-16px) scale(1.1); }
+  100% { opacity: 0; transform: translateY(-30px) scale(0.9); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ДВА ДОХОДА В ШАПКЕ (тап + пассив)
+   ══════════════════════════════════════════════════════════════ */
+
+#income-wrap {
+  display:        flex;
+  flex-direction: column;
+  gap:            2px;
+  font-size:      0.8rem;
+}
+
+#tap-display {
+  color:       #FFA500;
+  font-weight: 700;
+}
+
+#tap-display #tap-power {
+  color:       #FFD700;
+  font-size:   1em;
+}
+
+#income-display {
+  color:       var(--text-secondary);
+  font-size:   0.78rem;
+}
+
+/* Подсказка под монетой */
+#tap-hint {
+  color:       var(--text-muted);
+  font-size:   0.72rem;
+  margin-top:  10px;
+  text-align:  center;
+  letter-spacing: 0.02em;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ДВА ТИПА БИЗНЕСОВ
+   ══════════════════════════════════════════════════════════════ */
+
+/* TAP-бизнесы: оранжево-золотой акцент */
+.upgrade-item.type-tap {
+  border-left: 3px solid rgba(255,150,0,0.35);
+}
+
+.upgrade-item.type-tap.affordable {
+  border-left-color: rgba(255,150,0,0.8);
+  box-shadow: 0 0 12px rgba(255,150,0,0.15);
+}
+
+.upgrade-item.type-tap .upgrade-icon {
+  filter: none;
+}
+
+/* TAP-бонус в карточке */
+.upgrade-tap-bonus {
+  color:       #FFA500;
+  font-size:   0.78rem;
+  font-weight: 700;
+}
+
+/* PASSIVE-бизнесы: зелёный акцент */
+.upgrade-item.type-passive {
+  border-left: 3px solid rgba(46,204,113,0.25);
+}
+
+.upgrade-item.type-passive.affordable {
+  border-left-color: rgba(46,204,113,0.7);
+  box-shadow: 0 0 12px rgba(46,204,113,0.12);
+}
+
+/* Заблокированный бизнес */
+.upgrade-item.locked {
+  opacity:       0.45;
+  pointer-events: none;
+  filter:        grayscale(0.8);
+}
+
+.upgrade-item.locked .upgrade-icon {
+  filter: grayscale(1);
+}
+
+.upgrade-item.locked .upgrade-cost {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+}
+
+/* Стоимость разблокировки вместо цены */
+.upgrade-item.locked .cost-num::before {
+  content: 'Нужно заработать ';
+  color:   var(--text-muted);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   АДАПТАЦИЯ ДЕСКТОП ДЛЯ НОВЫХ ЭЛЕМЕНТОВ
+   ══════════════════════════════════════════════════════════════ */
+
+@media (min-width: 768px) {
+  .auth-modal-content {
+    padding: 40px 36px 32px;
+  }
+
+  #income-wrap {
+    flex-direction: row;
+    gap:            16px;
+    align-items:    center;
+  }
+
+  #income-display {
+    font-size: 0.82rem;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   КНОПКА СБОРА ПАССИВНОГО ДОХОДА
+   ══════════════════════════════════════════════════════════════ */
+
+.upgrade-timer-row {
+  display:     flex;
+  align-items: center;
+  gap:         8px;
+  width:       100%;
+}
+
+.upgrade-timer-row .upgrade-progress-bar {
+  flex: 1;
+}
+
+.collect-btn {
+  width:         100%;
+  margin-top:    6px;
+  padding:       7px 0;
+  background:    linear-gradient(135deg, var(--gold) 0%, var(--gold-accent) 100%);
+  color:         #000;
+  font-size:     0.82rem;
+  font-weight:   700;
+  border:        none;
+  border-radius: var(--radius-sm);
+  cursor:        pointer;
+  letter-spacing: 0.03em;
+  transition:    transform 0.1s ease, box-shadow 0.1s ease;
+  box-shadow:    0 2px 8px rgba(255,165,0,0.35);
+}
+
+.collect-btn:hover {
+  transform:  translateY(-1px);
+  box-shadow: 0 4px 14px rgba(255,165,0,0.5);
+}
+
+.collect-btn:active {
+  transform: translateY(0);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ТАБЛИЦА ЛИДЕРОВ
+   ══════════════════════════════════════════════════════════════ */
+
+.leaderboard-modal-content {
+  max-width: 720px;
+  width:     95vw;
+  padding:   28px 20px 24px;
+}
+
+.leaderboard-modal-content h2 {
+  text-align:   center;
+  margin-bottom: 18px;
+}
+
+.lb-loading {
+  text-align:  center;
+  color:       var(--text-secondary);
+  padding:     32px 0;
+  font-size:   0.95rem;
+}
+
+.lb-error {
+  color: var(--red);
+}
+
+.lb-table-wrap {
+  overflow-x: auto;
+  max-height: 55vh;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.lb-table {
+  width:           100%;
+  border-collapse: collapse;
+  font-size:       0.85rem;
+}
+
+.lb-table thead {
+  position: sticky;
+  top:      0;
+  z-index:  1;
+}
+
+.lb-table th {
+  background: var(--bg-panel);
+  color:      var(--text-secondary);
+  font-weight: 600;
+  padding:    10px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.lb-table td {
+  padding:       10px 12px;
+  border-bottom: 1px solid rgba(255,215,0,0.06);
+  vertical-align: middle;
+}
+
+.lb-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.lb-table tbody tr:hover {
+  background: var(--bg-card-hover);
+}
+
+.lb-rank {
+  font-size:  1.1rem;
+  text-align: center;
+  width:      40px;
+}
+
+.lb-name {
+  font-weight: 600;
+  color:       var(--text-primary);
+}
+
+.lb-num {
+  color:      var(--text-secondary);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.lb-streak {
+  color: var(--gold-accent);
+}
+
+.lb-you {
+  display:       inline-block;
+  background:    var(--gold);
+  color:         #000;
+  font-size:     0.65rem;
+  font-weight:   700;
+  border-radius: 4px;
+  padding:       1px 5px;
+  margin-left:   5px;
+  vertical-align: middle;
+  text-transform: uppercase;
+}
+
+.lb-me td {
+  background: rgba(255,215,0,0.06);
+}
+
+.lb-me .lb-name {
+  color: var(--gold);
+}
+
+@media (min-width: 768px) {
+  .leaderboard-modal-content {
+    padding: 36px 32px 28px;
+  }
+
+  .lb-table {
+    font-size: 0.9rem;
+  }
+}

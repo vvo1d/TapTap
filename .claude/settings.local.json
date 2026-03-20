@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l /Users/void/Documents/Проекты/TapTap/js/*.js /Users/void/Documents/Проекты/TapTap/css/style.css /Users/void/Documents/Проекты/TapTap/index.html)",
+      "Bash(npm install:*)",
+      "Bash(node -e \":*)",
+      "Bash(sqlite3 data/game.db \"DELETE FROM users WHERE username IN \\(''TestPlayer'', ''DailyTest''\\); SELECT changes\\(\\) || '' users deleted'';\")",
+      "Bash(sqlite3 data/game.db \"SELECT u.username, g.total_earned FROM users u LEFT JOIN game_states g ON g.user_id = u.id;\")",
+      "Bash(sqlite3 data/game.db \"SELECT username FROM users;\")"
+    ]
+  }
+}

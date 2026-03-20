@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="ТапТапМиллионер — idle/clicker симулятор бизнеса">
+  <meta name="theme-color" content="#0a0a18">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>ТапТапМиллионер 💰</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ══════════════════════════════════════════════
+       ШАПКА
+       ══════════════════════════════════════════════ -->
+  <header id="header">
+
+    <!-- Монеты -->
+    <div id="coin-display">
+      <span id="coin-icon" aria-hidden="true">🪙</span>
+      <span id="coin-count" aria-live="polite">0</span>
+      <span id="coin-label">ТапКойнов</span>
+    </div>
+
+    <!-- Доходы: тап + пассив -->
+    <div id="income-wrap">
+      <div id="tap-display" title="Монет за один тап">
+        👆 <span id="tap-power">1</span>/тап
+      </div>
+      <div id="income-display" title="Пассивный доход в час">
+        🏢 <span id="income-rate">0</span>/ч
+      </div>
+    </div>
+
+    <!-- Кнопки управления -->
+    <div id="header-actions">
+      <span id="user-info" class="header-user hidden"></span>
+      <button id="sound-btn"       class="header-btn" title="Звук">🔊</button>
+      <button id="leaderboard-btn" class="header-btn">🏆 Топ</button>
+      <button id="stats-btn"       class="header-btn">📊 Статы</button>
+      <button id="logout-btn"      class="header-btn hidden">Выйти</button>
+    </div>
+
+  </header>
+
+  <!-- ══════════════════════════════════════════════
+       ОСНОВНАЯ ОБЛАСТЬ
+       ══════════════════════════════════════════════ -->
+  <main id="main">
+
+    <section id="tap-area" aria-label="Монета для тапа">
+      <canvas
+        id="tap-canvas"
+        width="420"
+        height="420"
+        role="button"
+        tabindex="0"
+        aria-label="Нажмите, чтобы получить монету"
+      ></canvas>
+
+      <!-- Подсказка под монетой -->
+      <div id="tap-hint" aria-hidden="true">
+        Тапай, чтобы зарабатывать · Улучшай бизнесы справа
+      </div>
+    </section>
+
+    <aside id="upgrades-panel" aria-label="Список бизнесов">
+      <h2>🏢 Бизнесы</h2>
+      <div id="upgrades-list" role="list"></div>
+    </aside>
+
+  </main>
+
+</div><!-- #app -->
+
+<!-- ══════════════════════════════════════════════════════════
+     МОДАЛКА АВТОРИЗАЦИИ
+     ══════════════════════════════════════════════════════════ -->
+<div id="auth-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+  <div class="modal-content auth-modal-content">
+    <div class="auth-logo">🪙</div>
+    <h2 id="auth-title">ТапТапМиллионер</h2>
+    <p class="auth-subtitle">Сохраняй прогресс в аккаунте</p>
+
+    <div class="auth-tabs" role="tablist">
+      <button class="auth-tab active" data-tab="login"    role="tab">Войти</button>
+      <button class="auth-tab"        data-tab="register" role="tab">Регистрация</button>
+    </div>
+
+    <form id="login-form" class="auth-form" autocomplete="on" novalidate>
+      <div class="auth-field">
+        <label for="login-username">Имя игрока</label>
+        <input id="login-username" name="username" type="text"
+               placeholder="Ваш никнейм" autocomplete="username"
+               required minlength="3" maxlength="20">
+      </div>
+      <div class="auth-field">
+        <label for="login-password">Пароль</label>
+        <input id="login-password" name="password" type="password"
+               placeholder="••••••" autocomplete="current-password"
+               required minlength="6">
+      </div>
+      <button type="submit" class="auth-submit modal-btn" data-label="Войти">Войти</button>
+    </form>
+
+    <form id="register-form" class="auth-form hidden" autocomplete="on" novalidate>
+      <div class="auth-field">
+        <label for="reg-username">Придумайте имя</label>
+        <input id="reg-username" name="username" type="text"
+               placeholder="3-20 символов, буквы/цифры" autocomplete="username"
+               required minlength="3" maxlength="20">
+      </div>
+      <div class="auth-field">
+        <label for="reg-password">Пароль</label>
+        <input id="reg-password" name="password" type="password"
+               placeholder="Минимум 6 символов" autocomplete="new-password"
+               required minlength="6">
+      </div>
+      <div class="auth-field">
+        <label for="reg-password2">Повторите пароль</label>
+        <input id="reg-password2" name="password2" type="password"
+               placeholder="••••••" autocomplete="new-password" required>
+      </div>
+      <button type="submit" class="auth-submit modal-btn" data-label="Зарегистрироваться">
+        Зарегистрироваться
+      </button>
+    </form>
+
+    <div id="auth-error" class="auth-error hidden" role="alert"></div>
+
+    <button id="guest-btn" class="auth-guest-btn" type="button">
+      Играть как гость →
+    </button>
+    <p class="auth-guest-note">Прогресс гостя хранится только на этом устройстве</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     МОДАЛКА СТАТИСТИКИ
+     ══════════════════════════════════════════════════════════ -->
+<div id="stats-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="stats-title">
+  <div class="modal-content">
+    <h2 id="stats-title">📊 Статистика</h2>
+    <div id="stats-content"></div>
+    <button id="close-stats" class="modal-btn">Закрыть</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     МОДАЛКА ТАБЛИЦЫ ЛИДЕРОВ
+     ══════════════════════════════════════════════════════════ -->
+<div id="leaderboard-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="lb-title">
+  <div class="modal-content leaderboard-modal-content">
+    <h2 id="lb-title">🏆 Таблица лидеров</h2>
+    <div id="lb-body">
+      <div class="lb-loading">Загрузка…</div>
+    </div>
+    <button id="close-leaderboard" class="modal-btn">Закрыть</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     МОДАЛКА ОФФЛАЙН-ПРОГРЕССА
+     ══════════════════════════════════════════════════════════ -->
+<div id="offline-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="offline-title">
+  <div class="modal-content">
+    <h2 id="offline-title">😴 Пока вас не было…</h2>
+    <div class="offline-info">
+      <p>Вы отсутствовали <strong id="offline-time">—</strong></p>
+      <span class="offline-earned">+<span id="offline-earned">0</span> 🪙</span>
+      <p>Пассивные бизнесы работали без вас!</p>
+    </div>
+    <button id="close-offline" class="modal-btn">🎉 Забрать!</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     МОДАЛКА ЕЖЕДНЕВНОГО БОНУСА
+     ══════════════════════════════════════════════════════════ -->
+<div id="daily-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="daily-title">
+  <div class="modal-content">
+    <h2 id="daily-title">🔥 Ежедневный бонус!</h2>
+    <div class="offline-info">
+      <p>День <strong id="daily-streak">1</strong> подряд</p>
+      <span class="offline-earned">+<span id="daily-earned">0</span> 🪙</span>
+      <p>Заходи каждый день — бонус растёт до ×30!</p>
+    </div>
+    <button id="close-daily" class="modal-btn">🎉 Забрать!</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" role="status" aria-live="polite"></div>
+
+<!-- ══════════════════════════════════════════════════════════
+     СКРИПТЫ (порядок важен!)
+     ══════════════════════════════════════════════════════════ -->
+<script src="js/api.js"></script>
+<script src="js/save.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/upgrades.js"></script>
+<script src="js/tapHandler.js"></script>
+<script src="js/game.js"></script>
+
+</body>
+</html>
