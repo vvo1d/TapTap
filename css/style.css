@@ -516,7 +516,7 @@ body {
    ══════════════════════════════════════════════════════════════ */
 @media (min-width: 768px) {
   #main {
-    flex-direction: row;
+    flex-direction: column;
     flex:           1;
     overflow:       hidden;
   }
@@ -525,10 +525,11 @@ body {
     flex:           0 0 auto;
     width:          480px;
     padding:        32px;
-    border-right:   1px solid var(--border);
+    margin: 0 auto;
     /* Центрируем монету вертикально */
     align-self:     stretch;
     justify-content: center;
+    
   }
 
   #upgrades-panel {
