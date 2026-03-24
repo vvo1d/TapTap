@@ -49,6 +49,18 @@ db.exec(`
   );
 `);
 
+// Таблица чата
+db.exec(`
+  CREATE TABLE IF NOT EXISTS chat_messages (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id    INTEGER,
+    username   TEXT    NOT NULL,
+    message    TEXT    NOT NULL,
+    created_at INTEGER NOT NULL DEFAULT (unixepoch('now', 'subsec') * 1000),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+  );
+`);
+
 // Миграция для существующих БД (игнорирует ошибку, если столбец уже есть)
 try { db.exec(`ALTER TABLE game_states ADD COLUMN last_login_date TEXT NOT NULL DEFAULT ''`); } catch {}
 try { db.exec(`ALTER TABLE game_states ADD COLUMN login_streak INTEGER NOT NULL DEFAULT 0`); } catch {}

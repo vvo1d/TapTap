@@ -37,8 +37,15 @@ app.use(express.static(path.join(__dirname, '..')));
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/game', require('./routes/game'));
+app.use('/api/chat', require('./routes/chat'));
 
-// ── SPA fallback (для любых неизвестных GET-запросов отдаём index.html) ───
+// ── Маршруты страниц ───────────────────────────────────────────────────────
+
+app.get('/game', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../game.html'));
+});
+
+// ── Fallback ───────────────────────────────────────────────────────────────
 
 app.get('*', (req, res) => {
   if (req.path.startsWith('/api/')) {

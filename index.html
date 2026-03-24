@@ -2,90 +2,257 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="ТапТапМиллионер — idle/clicker симулятор бизнеса">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>ТапТапМиллионер — бесплатная idle/clicker игра онлайн</title>
+  <meta name="description"
+        content="ТапТапМиллионер — браузерная idle-игра. Тапай монету, строй бизнес-империю, получай пассивный доход и соревнуйся с другими игроками в таблице лидеров. Играй бесплатно!">
+  <meta name="keywords"
+        content="кликер, idle game, clicker, тапалка, браузерная игра, бизнес симулятор, пассивный доход, бесплатная игра">
+  <meta name="author" content="ТапТапМиллионер">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://taptaptap.ru/">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://taptaptap.ru/">
+  <meta property="og:title"       content="ТапТапМиллионер — бесплатная idle/clicker игра">
+  <meta property="og:description" content="Строй бизнес-империю с нуля. Тапай, улучшай, зарабатывай. Бесплатно, прямо в браузере.">
+  <meta property="og:locale"      content="ru_RU">
+
+  <!-- Theme -->
   <meta name="theme-color" content="#0a0a18">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>ТапТапМиллионер 💰</title>
-  <link rel="stylesheet" href="css/style.css">
+
+  <link rel="stylesheet" href="css/landing.css">
 </head>
 <body>
 
-<div id="app">
+<!-- ══════════════════════════════════════
+     НАВБАР
+     ══════════════════════════════════════ -->
+<nav id="navbar" aria-label="Навигация">
+  <a href="/" class="nav-logo" aria-label="ТапТапМиллионер — на главную">
+    🪙 ТапТап<span>Миллионер</span>
+  </a>
+  <div class="nav-actions" id="nav-actions">
+    <button class="btn btn-outline" id="nav-login-btn">Войти</button>
+    <button class="btn btn-primary" id="nav-reg-btn">Начать играть</button>
+  </div>
+</nav>
 
-  <!-- ══════════════════════════════════════════════
-       ШАПКА
-       ══════════════════════════════════════════════ -->
-  <header id="header">
+<!-- ══════════════════════════════════════
+     HERO
+     ══════════════════════════════════════ -->
+<section id="hero" aria-labelledby="hero-title">
+  <div class="hero-badge">🎮 Играй прямо в браузере — бесплатно</div>
 
-    <!-- Монеты -->
-    <div id="coin-display">
-      <span id="coin-icon" aria-hidden="true">🪙</span>
-      <span id="coin-count" aria-live="polite">0</span>
-      <span id="coin-label">ТапКойнов</span>
+  <h1 id="hero-title" class="hero-title">
+    Стань<br><span class="gold">💰 ТапТап</span>Миллионером
+  </h1>
+
+  <p class="hero-sub">
+    Idle-кликер с бизнес-механикой. Тапай монету, открывай предприятия,
+    получай пассивный доход и соревнуйся с тысячами игроков.
+  </p>
+
+  <div class="hero-cta">
+    <button class="btn btn-primary" id="hero-play-btn">
+      ▶ Начать играть бесплатно
+    </button>
+    <a href="#features" class="btn btn-outline">Узнать больше</a>
+  </div>
+
+  <div class="hero-coin" role="img" aria-label="Золотая монета">🪙</div>
+
+  <div class="hero-stats" aria-label="Статистика игры">
+    <div>
+      <span class="hero-stat-val" id="stat-players">—</span>
+      <span class="hero-stat-lbl">Игроков</span>
+    </div>
+    <div>
+      <span class="hero-stat-val">14</span>
+      <span class="hero-stat-lbl">Бизнесов</span>
+    </div>
+    <div>
+      <span class="hero-stat-val">∞</span>
+      <span class="hero-stat-lbl">Монет</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     ФИЧИ
+     ══════════════════════════════════════ -->
+<section id="features" aria-labelledby="features-title">
+  <h2 id="features-title" class="section-title">Что тебя ждёт</h2>
+  <p class="section-sub">Всё что нужно для настоящей бизнес-империи</p>
+
+  <div class="features-grid">
+    <article class="feature-card">
+      <span class="feature-icon" aria-hidden="true">👆</span>
+      <h3 class="feature-title">Тап-механика</h3>
+      <p class="feature-desc">
+        Каждый тап приносит монеты. Улучшай рабочее место, мастерскую, офис —
+        и сила каждого нажатия будет расти в разы.
+      </p>
+    </article>
+
+    <article class="feature-card">
+      <span class="feature-icon" aria-hidden="true">🏢</span>
+      <h3 class="feature-title">Пассивный доход</h3>
+      <p class="feature-desc">
+        6 пассивных бизнесов — от сдачи квартиры до спутниковой сети.
+        Деньги приходят даже когда ты не в игре.
+      </p>
+    </article>
+
+    <article class="feature-card">
+      <span class="feature-icon" aria-hidden="true">🔥</span>
+      <h3 class="feature-title">Ежедневные бонусы</h3>
+      <p class="feature-desc">
+        Заходи каждый день и получай нарастающий бонус — до ×30 за месяц
+        непрерывной игры.
+      </p>
+    </article>
+
+    <article class="feature-card">
+      <span class="feature-icon" aria-hidden="true">🏆</span>
+      <h3 class="feature-title">Таблица лидеров</h3>
+      <p class="feature-desc">
+        Соревнуйся с реальными игроками. Попади в топ по заработанным монетам,
+        количеству тапов и стрику входов.
+      </p>
+    </article>
+
+    <article class="feature-card">
+      <span class="feature-icon" aria-hidden="true">😴</span>
+      <h3 class="feature-title">Оффлайн-прогресс</h3>
+      <p class="feature-desc">
+        Возвращайся и забирай доход за время отсутствия — до 8 часов
+        пассивного накопления ждут тебя.
+      </p>
+    </article>
+
+    <article class="feature-card">
+      <span class="feature-icon" aria-hidden="true">🔒</span>
+      <h3 class="feature-title">Прогресс сохраняется</h3>
+      <p class="feature-desc">
+        Зарегистрируйся — и твои достижения будут в безопасности.
+        Играй с любого устройства без потерь.
+      </p>
+    </article>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     КАК ИГРАТЬ
+     ══════════════════════════════════════ -->
+<section id="how" aria-labelledby="how-title">
+  <div class="how-inner">
+    <h2 id="how-title" class="section-title">Как начать</h2>
+    <p class="section-sub">Три шага до первого миллиона</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num" aria-hidden="true">1</div>
+        <h3 class="step-title">Регистрация</h3>
+        <p class="step-desc">Создай аккаунт за 30 секунд — никакой почты, только никнейм и пароль.</p>
+      </div>
+      <div class="step">
+        <div class="step-num" aria-hidden="true">2</div>
+        <h3 class="step-title">Тапай монету</h3>
+        <p class="step-desc">Зарабатывай первые монеты тапами и вкладывай в улучшение бизнесов.</p>
+      </div>
+      <div class="step">
+        <div class="step-num" aria-hidden="true">3</div>
+        <h3 class="step-title">Строй империю</h3>
+        <p class="step-desc">Открывай новые предприятия, качай пассивный доход и покоряй топ лидеров.</p>
+      </div>
+      <div class="step">
+        <div class="step-num" aria-hidden="true">4</div>
+        <h3 class="step-title">Возвращайся</h3>
+        <p class="step-desc">Забирай оффлайн-доход, бери ежедневный бонус и поднимайся в рейтинге.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     ЛИДЕРЫ + ЧАТ
+     ══════════════════════════════════════ -->
+<section id="community" aria-labelledby="community-title">
+  <h2 id="community-title" class="section-title">Сообщество</h2>
+  <p class="section-sub">Лучшие игроки и живой чат</p>
+
+  <div class="community-grid">
+
+    <!-- Мини-лидерборд -->
+    <div class="community-panel" aria-label="Топ игроков">
+      <div class="panel-header">🏆 Топ игроков</div>
+      <div class="mini-lb" id="mini-lb" role="list">
+        <div class="mini-lb-empty">Загрузка…</div>
+      </div>
     </div>
 
-    <!-- Доходы: тап + пассив -->
-    <div id="income-wrap">
-      <div id="tap-display" title="Монет за один тап">
-        👆 <span id="tap-power">1</span>/тап
+    <!-- Чат -->
+    <div class="community-panel" aria-label="Чат игроков">
+      <div class="panel-header">💬 Чат игроков</div>
+      <div class="chat-messages" id="chat-messages" role="log" aria-live="polite">
+        <div class="chat-empty">Пока сообщений нет. Будь первым!</div>
       </div>
-      <div id="income-display" title="Пассивный доход в час">
-        🏢 <span id="income-rate">0</span>/ч
+      <div class="chat-input-wrap" id="chat-input-wrap">
+        <input
+          class="chat-input"
+          id="chat-input"
+          type="text"
+          placeholder="Написать сообщение…"
+          maxlength="200"
+          autocomplete="off"
+        >
+        <button class="chat-send-btn" id="chat-send-btn" type="button">Отправить</button>
+      </div>
+      <div class="chat-login-note hidden" id="chat-login-note">
+        <a href="#" id="chat-login-link">Войдите</a>, чтобы писать в чат
       </div>
     </div>
 
-    <!-- Кнопки управления -->
-    <div id="header-actions">
-      <span id="user-info" class="header-user hidden"></span>
-      <button id="sound-btn"       class="header-btn" title="Звук">🔊</button>
-      <button id="leaderboard-btn" class="header-btn">🏆 Топ</button>
-      <button id="stats-btn"       class="header-btn">📊 Статы</button>
-      <button id="logout-btn"      class="header-btn hidden">Выйти</button>
-    </div>
+  </div>
+</section>
 
-  </header>
+<!-- ══════════════════════════════════════
+     CTA
+     ══════════════════════════════════════ -->
+<section id="cta" aria-label="Призыв к действию">
+  <div class="cta-box">
+    <h2>Готов стать миллионером? 💰</h2>
+    <p>
+      Регистрация бесплатна. Никаких загрузок — играй прямо в браузере
+      на телефоне или компьютере.
+    </p>
+    <button class="btn btn-primary" id="cta-play-btn" style="margin: 0 auto; display:inline-flex; padding: 14px 40px; font-size: 1rem;">
+      ▶ Начать играть
+    </button>
+  </div>
+</section>
 
-  <!-- ══════════════════════════════════════════════
-       ОСНОВНАЯ ОБЛАСТЬ
-       ══════════════════════════════════════════════ -->
-  <main id="main">
+<!-- ══════════════════════════════════════
+     ФУТЕР
+     ══════════════════════════════════════ -->
+<footer>
+  <p>© 2025 ТапТапМиллионер — браузерная idle/clicker игра. Все права защищены.</p>
+</footer>
 
-    <section id="tap-area" aria-label="Монета для тапа">
-      <canvas
-        id="tap-canvas"
-        width="420"
-        height="420"
-        role="button"
-        tabindex="0"
-        aria-label="Нажмите, чтобы получить монету"
-      ></canvas>
-
-      <!-- Подсказка под монетой -->
-      <div id="tap-hint" aria-hidden="true">
-        Тапай, чтобы зарабатывать · Улучшай бизнесы справа
-      </div>
-    </section>
-
-    <aside id="upgrades-panel" aria-label="Список бизнесов">
-      <h2>🏢 Бизнесы</h2>
-      <div id="upgrades-list" role="list"></div>
-    </aside>
-
-  </main>
-
-</div><!-- #app -->
-
-<!-- ══════════════════════════════════════════════════════════
+<!-- ══════════════════════════════════════
      МОДАЛКА АВТОРИЗАЦИИ
-     ══════════════════════════════════════════════════════════ -->
+     ══════════════════════════════════════ -->
 <div id="auth-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="auth-title">
-  <div class="modal-content auth-modal-content">
+  <div class="modal-content">
     <div class="auth-logo">🪙</div>
-    <h2 id="auth-title">ТапТапМиллионер</h2>
-    <p class="auth-subtitle">Сохраняй прогресс в аккаунте</p>
+    <h2 id="auth-title" class="auth-title">ТапТапМиллионер</h2>
+    <p class="auth-subtitle">Войди и начни строить империю</p>
 
     <div class="auth-tabs" role="tablist">
       <button class="auth-tab active" data-tab="login"    role="tab">Войти</button>
@@ -96,116 +263,39 @@
       <div class="auth-field">
         <label for="login-username">Имя игрока</label>
         <input id="login-username" name="username" type="text"
-               placeholder="Ваш никнейм" autocomplete="username"
-               required minlength="3" maxlength="20">
+               placeholder="Ваш никнейм" autocomplete="username" required minlength="3" maxlength="20">
       </div>
       <div class="auth-field">
         <label for="login-password">Пароль</label>
         <input id="login-password" name="password" type="password"
-               placeholder="••••••" autocomplete="current-password"
-               required minlength="6">
+               placeholder="••••••" autocomplete="current-password" required minlength="6">
       </div>
-      <button type="submit" class="auth-submit modal-btn" data-label="Войти">Войти</button>
+      <button type="submit" class="auth-submit" data-label="Войти">Войти</button>
     </form>
 
     <form id="register-form" class="auth-form hidden" autocomplete="on" novalidate>
       <div class="auth-field">
         <label for="reg-username">Придумайте имя</label>
         <input id="reg-username" name="username" type="text"
-               placeholder="3-20 символов, буквы/цифры" autocomplete="username"
-               required minlength="3" maxlength="20">
+               placeholder="3–20 символов, буквы/цифры" autocomplete="username" required minlength="3" maxlength="20">
       </div>
       <div class="auth-field">
         <label for="reg-password">Пароль</label>
         <input id="reg-password" name="password" type="password"
-               placeholder="Минимум 6 символов" autocomplete="new-password"
-               required minlength="6">
+               placeholder="Минимум 6 символов" autocomplete="new-password" required minlength="6">
       </div>
       <div class="auth-field">
         <label for="reg-password2">Повторите пароль</label>
         <input id="reg-password2" name="password2" type="password"
                placeholder="••••••" autocomplete="new-password" required>
       </div>
-      <button type="submit" class="auth-submit modal-btn" data-label="Зарегистрироваться">
-        Зарегистрироваться
-      </button>
+      <button type="submit" class="auth-submit" data-label="Зарегистрироваться">Зарегистрироваться</button>
     </form>
 
     <div id="auth-error" class="auth-error hidden" role="alert"></div>
-
-    <button id="guest-btn" class="auth-guest-btn" type="button">
-      Играть как гость →
-    </button>
-    <p class="auth-guest-note">Прогресс гостя хранится только на этом устройстве</p>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════════════
-     МОДАЛКА СТАТИСТИКИ
-     ══════════════════════════════════════════════════════════ -->
-<div id="stats-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="stats-title">
-  <div class="modal-content">
-    <h2 id="stats-title">📊 Статистика</h2>
-    <div id="stats-content"></div>
-    <button id="close-stats" class="modal-btn">Закрыть</button>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════
-     МОДАЛКА ТАБЛИЦЫ ЛИДЕРОВ
-     ══════════════════════════════════════════════════════════ -->
-<div id="leaderboard-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="lb-title">
-  <div class="modal-content leaderboard-modal-content">
-    <h2 id="lb-title">🏆 Таблица лидеров</h2>
-    <div id="lb-body">
-      <div class="lb-loading">Загрузка…</div>
-    </div>
-    <button id="close-leaderboard" class="modal-btn">Закрыть</button>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════
-     МОДАЛКА ОФФЛАЙН-ПРОГРЕССА
-     ══════════════════════════════════════════════════════════ -->
-<div id="offline-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="offline-title">
-  <div class="modal-content">
-    <h2 id="offline-title">😴 Пока вас не было…</h2>
-    <div class="offline-info">
-      <p>Вы отсутствовали <strong id="offline-time">—</strong></p>
-      <span class="offline-earned">+<span id="offline-earned">0</span> 🪙</span>
-      <p>Пассивные бизнесы работали без вас!</p>
-    </div>
-    <button id="close-offline" class="modal-btn">🎉 Забрать!</button>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════
-     МОДАЛКА ЕЖЕДНЕВНОГО БОНУСА
-     ══════════════════════════════════════════════════════════ -->
-<div id="daily-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="daily-title">
-  <div class="modal-content">
-    <h2 id="daily-title">🔥 Ежедневный бонус!</h2>
-    <div class="offline-info">
-      <p>День <strong id="daily-streak">1</strong> подряд</p>
-      <span class="offline-earned">+<span id="daily-earned">0</span> 🪙</span>
-      <p>Заходи каждый день — бонус растёт до ×30!</p>
-    </div>
-    <button id="close-daily" class="modal-btn">🎉 Забрать!</button>
-  </div>
-</div>
-
-<!-- Toast -->
-<div id="toast" role="status" aria-live="polite"></div>
-
-<!-- ══════════════════════════════════════════════════════════
-     СКРИПТЫ (порядок важен!)
-     ══════════════════════════════════════════════════════════ -->
-<script src="js/api.js"></script>
-<script src="js/save.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/upgrades.js"></script>
-<script src="js/tapHandler.js"></script>
-<script src="js/game.js"></script>
-
+<script src="js/landing.js"></script>
 </body>
 </html>
