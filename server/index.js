@@ -45,6 +45,10 @@ app.get('/game', (_req, res) => {
   res.sendFile(path.join(__dirname, '../game.html'));
 });
 
+app.get('/chat', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../chat.html'));
+});
+
 // ── Fallback ───────────────────────────────────────────────────────────────
 
 app.get('*', (req, res) => {

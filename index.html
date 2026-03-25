@@ -37,6 +37,9 @@
   <a href="/" class="nav-logo" aria-label="ТапТапМиллионер — на главную">
     🪙 ТапТап<span>Миллионер</span>
   </a>
+  <div class="nav-links">
+    <a href="/chat" class="nav-link">💬 Чат</a>
+  </div>
   <div class="nav-actions" id="nav-actions">
     <button class="btn btn-outline" id="nav-login-btn">Войти</button>
     <button class="btn btn-primary" id="nav-reg-btn">Начать играть</button>
@@ -185,7 +188,7 @@
      ══════════════════════════════════════ -->
 <section id="community" aria-labelledby="community-title">
   <h2 id="community-title" class="section-title">Сообщество</h2>
-  <p class="section-sub">Лучшие игроки и живой чат</p>
+  <p class="section-sub">Лучшие игроки</p>
 
   <div class="community-grid">
 
@@ -194,28 +197,6 @@
       <div class="panel-header">🏆 Топ игроков</div>
       <div class="mini-lb" id="mini-lb" role="list">
         <div class="mini-lb-empty">Загрузка…</div>
-      </div>
-    </div>
-
-    <!-- Чат -->
-    <div class="community-panel" aria-label="Чат игроков">
-      <div class="panel-header">💬 Чат игроков</div>
-      <div class="chat-messages" id="chat-messages" role="log" aria-live="polite">
-        <div class="chat-empty">Пока сообщений нет. Будь первым!</div>
-      </div>
-      <div class="chat-input-wrap" id="chat-input-wrap">
-        <input
-          class="chat-input"
-          id="chat-input"
-          type="text"
-          placeholder="Написать сообщение…"
-          maxlength="200"
-          autocomplete="off"
-        >
-        <button class="chat-send-btn" id="chat-send-btn" type="button">Отправить</button>
-      </div>
-      <div class="chat-login-note hidden" id="chat-login-note">
-        <a href="#" id="chat-login-link">Войдите</a>, чтобы писать в чат
       </div>
     </div>
 

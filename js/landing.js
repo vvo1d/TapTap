@@ -45,13 +45,6 @@ function fmtNum(n) {
   return Math.floor(n).toString();
 }
 
-function fmtTime(ts) {
-  const d = new Date(ts);
-  const h = d.getHours().toString().padStart(2, '0');
-  const m = d.getMinutes().toString().padStart(2, '0');
-  return `${h}:${m}`;
-}
-
 // ── Авторизация ────────────────────────────────────────────────────────────
 
 function parseJwt(token) {
@@ -200,88 +193,6 @@ async function loadLeaderboard() {
   }
 }
 
-// ── Чат ────────────────────────────────────────────────────────────────────
-
-let _lastMsgTs  = 0;
-let _chatPollId = null;
-
-function appendMessages(messages, msgsEl) {
-  if (!messages.length) return;
-  const wasBottom = msgsEl.scrollHeight - msgsEl.scrollTop - msgsEl.clientHeight < 60;
-
-  messages.forEach(m => {
-    const div = document.createElement('div');
-    div.className = 'chat-msg';
-    div.dataset.id = m.id;
-    div.innerHTML = `
-      <span class="chat-msg-user">${escHtml(m.username)}</span>
-      <span class="chat-msg-text">${escHtml(m.message)}</span>
-      <span class="chat-msg-time">${fmtTime(m.created_at)}</span>
-    `;
-    msgsEl.appendChild(div);
-    _lastMsgTs = Math.max(_lastMsgTs, m.created_at);
-  });
-
-  if (wasBottom) msgsEl.scrollTop = msgsEl.scrollHeight;
-}
-
-async function pollChat() {
-  const msgsEl = document.getElementById('chat-messages');
-  if (!msgsEl) return;
-  try {
-    const url = _lastMsgTs ? `/api/chat/messages?since=${_lastMsgTs}` : '/api/chat/messages';
-    const { messages } = await req('GET', url);
-    const emptyEl = msgsEl.querySelector('.chat-empty');
-    if (messages.length && emptyEl) emptyEl.remove();
-    appendMessages(messages, msgsEl);
-  } catch { /* тихо игнорируем сетевые ошибки при поллинге */ }
-}
-
-function initChat() {
-  const msgsEl  = document.getElementById('chat-messages');
-  const input   = document.getElementById('chat-input');
-  const sendBtn = document.getElementById('chat-send-btn');
-  const noteEl  = document.getElementById('chat-login-note');
-  const inputWrap = document.getElementById('chat-input-wrap');
-
-  if (!msgsEl) return;
-
-  if (!isLoggedIn()) {
-    inputWrap?.classList.add('hidden');
-    noteEl?.classList.remove('hidden');
-    document.getElementById('chat-login-link')?.addEventListener('click', e => {
-      e.preventDefault(); showAuth('login');
-    });
-  }
-
-  // Первичная загрузка
-  pollChat();
-  _chatPollId = setInterval(pollChat, 5000);
-
-  if (!isLoggedIn() || !input || !sendBtn) return;
-
-  async function sendMessage() {
-    const msg = input.value.trim();
-    if (!msg) return;
-    input.value = '';
-    sendBtn.disabled = true;
-    try {
-      await req('POST', '/api/chat/message', { message: msg });
-      await pollChat();
-    } catch (err) {
-      input.value = msg; // вернём текст при ошибке
-    } finally {
-      sendBtn.disabled = false;
-      input.focus();
-    }
-  }
-
-  sendBtn.addEventListener('click', sendMessage);
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-  });
-}
-
 // ── Счётчики в hero ────────────────────────────────────────────────────────
 
 async function loadHeroStats() {
@@ -299,5 +210,4 @@ document.addEventListener('DOMContentLoaded', () => {
   initAuth();
   loadLeaderboard();
   loadHeroStats();
-  initChat();
 });

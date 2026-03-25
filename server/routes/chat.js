@@ -14,12 +14,21 @@ const router = express.Router();
 const MAX_MSG_LEN  = 200;
 const KEEP_MESSAGES = 500; // максимум хранить в БД
 
+const PAGE_SIZE = 40;
+
 const stmts = {
   recent: db.prepare(`
     SELECT id, username, message, created_at
     FROM chat_messages
     ORDER BY created_at DESC
-    LIMIT 50
+    LIMIT ?
+  `),
+  before: db.prepare(`
+    SELECT id, username, message, created_at
+    FROM chat_messages
+    WHERE id < ?
+    ORDER BY created_at DESC
+    LIMIT ?
   `),
   since: db.prepare(`
     SELECT id, username, message, created_at
@@ -44,13 +53,20 @@ const stmts = {
 
 router.get('/messages', (req, res) => {
   try {
-    const since = parseInt(req.query.since, 10);
+    const since  = parseInt(req.query.since, 10);
+    const before = parseInt(req.query.before, 10);
+    const limit  = Math.min(parseInt(req.query.limit, 10) || PAGE_SIZE, 100);
     let rows;
 
     if (since && Number.isFinite(since)) {
+      // Polling — новые сообщения после timestamp
       rows = stmts.since.all(since);
+    } else if (before && Number.isFinite(before)) {
+      // Пагинация — старые сообщения до ID
+      rows = stmts.before.all(before, limit).reverse();
     } else {
-      rows = stmts.recent.all().reverse();
+      // Первая загрузка — последние N сообщений
+      rows = stmts.recent.all(limit).reverse();
     }
 
     res.json({ messages: rows });

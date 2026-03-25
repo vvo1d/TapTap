@@ -206,14 +206,14 @@ const TapHandler = {
     }, { passive: false });
 
     // Клавиатурная доступность (Enter / Пробел)
-    this.canvas.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        const cx = this.canvas.width  / 2;
-        const cy = this.canvas.height / 2;
-        this._handlePointer({ clientX: cx, clientY: cy, _rect: { left: 0, top: 0, width: this.canvas.width, height: this.canvas.height } });
-      }
-    });
+    // this.canvas.addEventListener('keydown', e => {
+    //   if (e.key === 'Enter' || e.key === ' ') {
+    //     e.preventDefault();
+    //     const cx = this.canvas.width  / 2;
+    //     const cy = this.canvas.height / 2;
+    //     this._handlePointer({ clientX: cx, clientY: cy, _rect: { left: 0, top: 0, width: this.canvas.width, height: this.canvas.height } });
+    //   }
+    // });
 
     this._loop();
   },
@@ -342,9 +342,9 @@ const TapHandler = {
     const labelSize = Math.floor(r * 0.22);
     ctx.font         = `bold ${labelSize}px Arial, sans-serif`;
     ctx.fillStyle    = 'rgba(120,75,0,0.7)';
-    ctx.fillText('[ ТАП! ]', cx + 2, cy + r * 0.68 + 2);
+    ctx.fillText('ТАП!', cx + 2, cy + r * 0.68 + 2);
     ctx.fillStyle    = '#FFFBCC';
-    ctx.fillText('[ ТАП! ]', cx, cy + r * 0.68);
+    ctx.fillText('ТАП!', cx, cy + r * 0.68);
 
     // Блик
     const shine = ctx.createRadialGradient(

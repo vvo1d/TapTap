@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Чат — ТапТапМиллионер</title>
+  <meta name="description" content="Чат игроков ТапТапМиллионер. Общайся с другими игроками в реальном времени.">
+  <meta name="theme-color" content="#0a0a18">
+  <link rel="stylesheet" href="css/landing.css">
+  <style>
+    body { display: flex; flex-direction: column; min-height: 100vh; }
+
+    .chat-page {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 16px;
+      min-height: 0;
+      height: 100vh;
+    }
+
+    .chat-page-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    .chat-online {
+      padding: 10px 20px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .chat-online-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-block;
+      animation: onlinePulse 2s ease-in-out infinite;
+    }
+
+    @keyframes onlinePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      height: calc(100vh - 280px);
+      min-height: 300px;
+      max-height: calc(100vh - 280px);
+    }
+
+    .chat-load-more {
+      padding: 10px 20px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .chat-load-more-btn {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-sec);
+      font-size: 0.82rem;
+      padding: 6px 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .chat-load-more-btn:hover {
+      border-color: rgba(255,215,0,0.3);
+      color: var(--gold);
+      background: rgba(255,215,0,0.06);
+    }
+
+    .chat-load-more-btn:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    .chat-date-sep {
+      text-align: center;
+      padding: 12px 20px 6px;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      position: relative;
+    }
+
+    .chat-date-sep::before,
+    .chat-date-sep::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: calc(50% - 60px);
+      height: 1px;
+      background: var(--border);
+    }
+
+    .chat-date-sep::before { left: 16px; }
+    .chat-date-sep::after  { right: 16px; }
+
+    .chat-msg {
+      padding: 6px 20px;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      transition: background 0.1s;
+    }
+
+    .chat-msg:hover { background: rgba(255,255,255,0.02); }
+
+    .chat-msg-user {
+      font-weight: 700;
+      color: var(--gold-accent);
+      margin-right: 8px;
+    }
+
+    .chat-msg-text {
+      color: var(--text);
+      word-break: break-word;
+    }
+
+    .chat-msg-time {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-left: 8px;
+      white-space: nowrap;
+    }
+
+    .chat-empty {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      padding: 60px 20px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chat-input-wrap {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-shrink: 0;
+      flex-direction: column;
+    }
+
+    .chat-input {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 0.95rem;
+      padding: 10px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    .chat-input:focus { border-color: rgba(255,215,0,0.4); }
+    .chat-input::placeholder { color: var(--text-muted); }
+    .chat-input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .chat-send-btn {
+      background: linear-gradient(135deg, #C89600, #8B6200);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: var(--gold-light);
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      width: 100%;
+    }
+
+    .chat-send-btn:hover:not(:disabled) {
+      background: linear-gradient(135deg, #FFD700, #C89600);
+      color: #1a1200;
+    }
+
+    .chat-send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .chat-login-note {
+      padding: 14px 20px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .chat-login-note a { color: var(--gold); text-decoration: none; }
+    .chat-login-note a:hover { text-decoration: underline; }
+
+
+
+  </style>
+</head>
+<body>
+
+<!-- Навбар -->
+<nav id="navbar" aria-label="Навигация">
+  <a href="/" class="nav-logo">🪙 ТапТап<span>Миллионер</span></a>
+  <div class="nav-links">
+    <a href="/" class="nav-link">🏠 Главная</a>
+    <a href="/game" class="nav-link">🎮 Игра</a>
+  </div>
+  <div class="nav-actions" id="nav-actions">
+    <button class="btn btn-outline" id="nav-login-btn">Войти</button>
+    <a href="/game" class="btn btn-primary">▶ Играть</a>
+  </div>
+</nav>
+
+<!-- Чат -->
+<div class="chat-page">
+  <h1 class="chat-page-title">💬 Чат игроков</h1>
+
+  <div class="chat-container">
+    <div class="chat-online">
+      <span class="chat-online-dot"></span>
+      Чат в реальном времени
+    </div>
+
+    <div class="chat-messages" id="chat-messages" role="log" aria-live="polite">
+      <div class="chat-empty">Пока сообщений нет. Будь первым!</div>
+    </div>
+
+    <div class="chat-input-wrap" id="chat-input-wrap">
+      <input class="chat-input" id="chat-input" type="text"
+             placeholder="Написать сообщение…" maxlength="200" autocomplete="off">
+      <button class="chat-send-btn" id="chat-send-btn" type="button">Отправить</button>
+    </div>
+
+    <div class="chat-login-note hidden" id="chat-login-note">
+      <a href="#" id="chat-login-link">Войдите</a>, чтобы писать в чат
+    </div>
+  </div>
+</div>
+
+<!-- Модалка авторизации -->
+<div id="auth-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+  <div class="modal-content">
+    <div class="auth-logo">🪙</div>
+    <h2 id="auth-title" class="auth-title">ТапТапМиллионер</h2>
+    <p class="auth-subtitle">Войди, чтобы писать в чат</p>
+
+    <div class="auth-tabs" role="tablist">
+      <button class="auth-tab active" data-tab="login"    role="tab">Войти</button>
+      <button class="auth-tab"        data-tab="register" role="tab">Регистрация</button>
+    </div>
+
+    <form id="login-form" class="auth-form" autocomplete="on" novalidate>
+      <div class="auth-field">
+        <label for="login-username">Имя игрока</label>
+        <input id="login-username" name="username" type="text"
+               placeholder="Ваш никнейм" autocomplete="username" required minlength="3" maxlength="20">
+      </div>
+      <div class="auth-field">
+        <label for="login-password">Пароль</label>
+        <input id="login-password" name="password" type="password"
+               placeholder="••••••" autocomplete="current-password" required minlength="6">
+      </div>
+      <button type="submit" class="auth-submit" data-label="Войти">Войти</button>
+    </form>
+
+    <form id="register-form" class="auth-form hidden" autocomplete="on" novalidate>
+      <div class="auth-field">
+        <label for="reg-username">Придумайте имя</label>
+        <input id="reg-username" name="username" type="text"
+               placeholder="3–20 символов" autocomplete="username" required minlength="3" maxlength="20">
+      </div>
+      <div class="auth-field">
+        <label for="reg-password">Пароль</label>
+        <input id="reg-password" name="password" type="password"
+               placeholder="Минимум 6 символов" autocomplete="new-password" required minlength="6">
+      </div>
+      <div class="auth-field">
+        <label for="reg-password2">Повторите пароль</label>
+        <input id="reg-password2" name="password2" type="password"
+               placeholder="••••••" autocomplete="new-password" required>
+      </div>
+      <button type="submit" class="auth-submit" data-label="Зарегистрироваться">Зарегистрироваться</button>
+    </form>
+
+    <div id="auth-error" class="auth-error hidden" role="alert"></div>
+  </div>
+</div>
+
+<script>
+const TOKEN_KEY = 'taptap_jwt';
+const PAGE_SIZE = 40;
+
+function getToken()   { return localStorage.getItem(TOKEN_KEY); }
+function isLoggedIn() { return !!getToken(); }
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+const MONTHS = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+
+function fmtTime(ts) {
+  const d = new Date(ts);
+  return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+}
+
+function fmtDate(ts) {
+  const d = new Date(ts);
+  return d.getDate() + ' ' + MONTHS[d.getMonth()];
+}
+
+function dateKey(ts) {
+  const d = new Date(ts);
+  return d.getFullYear() + '-' + d.getMonth() + '-' + d.getDate();
+}
+
+function parseJwt(t) { try { return JSON.parse(atob(t.split('.')[1])); } catch { return null; } }
+
+async function apiReq(method, url, body) {
+  const h = { 'Content-Type': 'application/json' };
+  if (getToken()) h['Authorization'] = 'Bearer ' + getToken();
+  const r = await fetch(url, { method, headers: h, body: body !== undefined ? JSON.stringify(body) : undefined });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.error || 'HTTP ' + r.status);
+  return d;
+}
+
+// ── Навбар ────────────────────────────────────────────────────────────────
+function updateNav() {
+  const el = document.getElementById('nav-actions');
+  if (isLoggedIn()) {
+    const name = parseJwt(getToken())?.username || '—';
+    el.innerHTML = `
+      <span class="nav-user">👤 ${escHtml(name)}</span>
+      <a href="/game" class="btn btn-primary">▶ Играть</a>
+    `;
+  }
+}
+
+// ── Авторизация ───────────────────────────────────────────────────────────
+function showAuth(tab) {
+  document.getElementById('auth-modal').classList.remove('hidden');
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.getElementById('login-form').classList.toggle('hidden', tab !== 'login');
+  document.getElementById('register-form').classList.toggle('hidden', tab !== 'register');
+  document.getElementById('auth-error')?.classList.add('hidden');
+}
+
+function hideAuth() { document.getElementById('auth-modal').classList.add('hidden'); }
+
+function initAuth() {
+  document.querySelectorAll('.auth-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const t = tab.dataset.tab;
+      document.querySelectorAll('.auth-tab').forEach(x => x.classList.toggle('active', x.dataset.tab === t));
+      document.getElementById('login-form').classList.toggle('hidden', t !== 'login');
+      document.getElementById('register-form').classList.toggle('hidden', t !== 'register');
+      document.getElementById('auth-error')?.classList.add('hidden');
+    });
+  });
+
+  document.getElementById('login-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const err = document.getElementById('auth-error');
+    const btn = e.target.querySelector('.auth-submit');
+    err.classList.add('hidden'); btn.disabled = true; btn.textContent = '…';
+    try {
+      const d = await apiReq('POST', '/api/auth/login', { username: e.target.username.value.trim(), password: e.target.password.value });
+      localStorage.setItem(TOKEN_KEY, d.token);
+      location.reload();
+    } catch (ex) {
+      err.textContent = ex.message; err.classList.remove('hidden');
+    } finally { btn.disabled = false; btn.textContent = 'Войти'; }
+  });
+
+  document.getElementById('register-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const err = document.getElementById('auth-error');
+    const btn = e.target.querySelector('.auth-submit');
+    err.classList.add('hidden');
+    if (e.target.password.value !== e.target.password2.value) { err.textContent = 'Пароли не совпадают'; err.classList.remove('hidden'); return; }
+    btn.disabled = true; btn.textContent = '…';
+    try {
+      const d = await apiReq('POST', '/api/auth/register', { username: e.target.username.value.trim(), password: e.target.password.value });
+      localStorage.setItem(TOKEN_KEY, d.token);
+      location.reload();
+    } catch (ex) {
+      err.textContent = ex.message; err.classList.remove('hidden');
+    } finally { btn.disabled = false; btn.textContent = 'Зарегистрироваться'; }
+  });
+
+  document.getElementById('auth-modal').addEventListener('click', e => { if (e.target === e.currentTarget) hideAuth(); });
+}
+
+// ── Чат ───────────────────────────────────────────────────────────────────
+let lastTs = 0;
+let oldestId = Infinity;
+let allLoaded = false;
+let knownDates = new Set(); // track which date separators exist
+
+const msgsEl = document.getElementById('chat-messages');
+
+function createDateSep(ts) {
+  const div = document.createElement('div');
+  div.className = 'chat-date-sep';
+  div.dataset.dateKey = dateKey(ts);
+  div.textContent = fmtDate(ts);
+  return div;
+}
+
+function createMsgEl(m) {
+  const div = document.createElement('div');
+  div.className = 'chat-msg';
+  div.dataset.id = m.id;
+  div.dataset.ts = m.created_at;
+  div.innerHTML = `<span class="chat-msg-user">${escHtml(m.username)}</span><span class="chat-msg-text">${escHtml(m.message)}</span><span class="chat-msg-time">${fmtDate(m.created_at)}, ${fmtTime(m.created_at)}</span>`;
+  return div;
+}
+
+// Append new messages at bottom (polling)
+function appendMessages(msgs) {
+  if (!msgs.length) return;
+  const atBottom = msgsEl.scrollHeight - msgsEl.scrollTop - msgsEl.clientHeight < 60;
+  const empty = msgsEl.querySelector('.chat-empty');
+  if (empty) empty.remove();
+
+  msgs.forEach(m => {
+    const dk = dateKey(m.created_at);
+    if (!knownDates.has(dk)) {
+      knownDates.add(dk);
+      msgsEl.appendChild(createDateSep(m.created_at));
+    }
+    msgsEl.appendChild(createMsgEl(m));
+    lastTs = Math.max(lastTs, m.created_at);
+    oldestId = Math.min(oldestId, m.id);
+  });
+
+  if (atBottom) msgsEl.scrollTop = msgsEl.scrollHeight;
+}
+
+// Prepend older messages at top (pagination)
+function prependMessages(msgs) {
+  if (!msgs.length) {
+    allLoaded = true;
+    return;
+  }
+
+  const prevHeight = msgsEl.scrollHeight;
+  const prevScroll = msgsEl.scrollTop;
+  const frag = document.createDocumentFragment();
+
+  // Messages arrive oldest→newest, we prepend them in order
+  msgs.forEach(m => {
+    const dk = dateKey(m.created_at);
+    if (!knownDates.has(dk)) {
+      knownDates.add(dk);
+      frag.appendChild(createDateSep(m.created_at));
+    }
+    frag.appendChild(createMsgEl(m));
+    oldestId = Math.min(oldestId, m.id);
+  });
+
+  // Insert after load-more button (if exists) or at top
+  const loadMoreEl = msgsEl.querySelector('.chat-load-more');
+  if (loadMoreEl) {
+    loadMoreEl.after(frag);
+  } else {
+    msgsEl.prepend(frag);
+  }
+
+  // Restore scroll position
+  const newHeight = msgsEl.scrollHeight;
+  msgsEl.scrollTop = prevScroll + (newHeight - prevHeight);
+
+  if (msgs.length < PAGE_SIZE) allLoaded = true;
+}
+
+function ensureLoadMoreBtn() {
+  if (msgsEl.querySelector('.chat-load-more')) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'chat-load-more';
+  wrap.innerHTML = '<button class="chat-load-more-btn">Загрузить ранние сообщения</button>';
+  msgsEl.prepend(wrap);
+  wrap.querySelector('button').addEventListener('click', loadOlder);
+}
+
+function updateLoadMoreBtn() {
+  const btn = msgsEl.querySelector('.chat-load-more-btn');
+  if (!btn) return;
+  if (allLoaded) {
+    btn.closest('.chat-load-more').remove();
+  }
+}
+
+async function loadOlder() {
+  if (allLoaded || oldestId === Infinity) return;
+  const btn = msgsEl.querySelector('.chat-load-more-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '…'; }
+  try {
+    const { messages } = await apiReq('GET', `/api/chat/messages?before=${oldestId}&limit=${PAGE_SIZE}`);
+    prependMessages(messages);
+    updateLoadMoreBtn();
+  } catch {}
+  if (btn && btn.parentElement) { btn.disabled = false; btn.textContent = 'Загрузить ранние сообщения'; }
+}
+
+async function poll() {
+  try {
+    const url = lastTs ? `/api/chat/messages?since=${lastTs}` : `/api/chat/messages?limit=${PAGE_SIZE}`;
+    const { messages } = await apiReq('GET', url);
+    const empty = msgsEl.querySelector('.chat-empty');
+    if (messages.length && empty) empty.remove();
+    appendMessages(messages);
+
+    // Show load-more if first load returned full page
+    if (!lastTs && messages.length >= PAGE_SIZE) {
+      // lastTs is now set by appendMessages
+    }
+    if (messages.length > 0 && !allLoaded) {
+      ensureLoadMoreBtn();
+    }
+  } catch {}
+}
+
+function initChat() {
+  const wrap = document.getElementById('chat-input-wrap');
+  const note = document.getElementById('chat-login-note');
+  const input = document.getElementById('chat-input');
+  const btn = document.getElementById('chat-send-btn');
+
+  if (!isLoggedIn()) {
+    wrap.classList.add('hidden');
+    note.classList.remove('hidden');
+    document.getElementById('chat-login-link')?.addEventListener('click', e => { e.preventDefault(); showAuth('login'); });
+  }
+
+  poll().then(() => {
+    // Scroll to bottom on initial load
+    msgsEl.scrollTop = msgsEl.scrollHeight;
+  });
+  setInterval(poll, 5000);
+
+  if (!isLoggedIn()) return;
+
+  async function send() {
+    const msg = input.value.trim();
+    if (!msg) return;
+    input.value = ''; btn.disabled = true;
+    try { await apiReq('POST', '/api/chat/message', { message: msg }); await poll(); }
+    catch { input.value = msg; }
+    finally { btn.disabled = false; input.focus(); }
+  }
+
+  btn.addEventListener('click', send);
+  input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  updateNav();
+  initAuth();
+  initChat();
+  document.getElementById('nav-login-btn')?.addEventListener('click', () => showAuth('login'));
+});
+</script>
+</body>
+</html>
