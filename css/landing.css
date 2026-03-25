@@ -361,12 +361,14 @@ body {
 
 @media (max-width: 768px) {
   .community-grid { grid-template-columns: 1fr; }
-}
-
    
   .nav-logo {
     display: none;
   }
+}
+
+   
+ 
 
   .hero-title {
     font-size:      clamp(1.5rem, 2vw, 2.2rem);
