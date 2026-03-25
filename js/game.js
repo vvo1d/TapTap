@@ -210,7 +210,7 @@ const Game = {
     this.state.totalTaps   += 1;
 
     this._updateHeader();
-    Upgrades.render(); // пересчитываем affordability
+    Upgrades.render();
   },
 
   // ── Сила тапа ────────────────────────────────────────────────────────────

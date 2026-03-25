@@ -205,6 +205,7 @@ const TapHandler = {
       });
     }, { passive: false });
 
+
     // Клавиатурная доступность (Enter / Пробел)
     // this.canvas.addEventListener('keydown', e => {
     //   if (e.key === 'Enter' || e.key === ' ') {
@@ -236,15 +237,6 @@ const TapHandler = {
     const r  = this.canvas.width  * 0.37;
     if (Math.hypot(x - cx, y - cy) > r) return;
 
-    // Всплывающий текст
-    this.floats.push({
-      x, y,
-      text:    '+1',
-      opacity: 1,
-      vy:      -2.5,
-      scale:   1 + Math.random() * 0.3,
-      life:    1,
-    });
 
     // Частицы золота
     const count = 10 + Math.floor(Math.random() * 8);
@@ -265,6 +257,11 @@ const TapHandler = {
 
     // Встряска
     this.shakeLeft = 0.25;
+
+    // CSS-анимация нажатия — сбрасываем через style напрямую (надёжнее классов)
+    this.canvas.style.animation = 'none';
+    void this.canvas.offsetWidth; // форсируем reflow
+    this.canvas.style.animation = 'tapPress 0.18s ease-out';
 
     // Звук и коллбэк
     Sound.playTap();
