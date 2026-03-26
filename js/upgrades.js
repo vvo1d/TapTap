@@ -11,21 +11,21 @@
 
 const BUSINESSES_DATA = [
   // ── Tap-бизнесы ──────────────────────────────────────────────────────────
-  { id: 'desk',      name: 'Рабочее место',          icon: '🖥️', desc: 'Простой стол и энтузиазм. С этого всё начинается.',               type: 'tap', tapBonus: 1,      baseCost: 50,          unlockAt: 0 },
-  { id: 'workshop',  name: 'Мастерская',              icon: '🔧', desc: 'Инструменты, навыки, дисциплина.',                                  type: 'tap', tapBonus: 5,      baseCost: 400,         unlockAt: 500 },
-  { id: 'studio',    name: 'Студия',                  icon: '🎙️', desc: 'Профессиональное рабочее пространство.',                            type: 'tap', tapBonus: 20,     baseCost: 3_000,       unlockAt: 5_000 },
-  { id: 'office',    name: 'Офис',                    icon: '🏢', desc: 'Команда, которая кратно усиливает каждый тап.',                    type: 'tap', tapBonus: 80,     baseCost: 25_000,      unlockAt: 50_000 },
-  { id: 'campus',    name: 'Технокампус',             icon: '🎓', desc: 'R&D-центр. Каждый тап — технологический прорыв.',                   type: 'tap', tapBonus: 350,    baseCost: 200_000,     unlockAt: 500_000 },
-  { id: 'factory',   name: 'Завод',                   icon: '🏭', desc: 'Промышленные мощности усиливают каждое нажатие.',                   type: 'tap', tapBonus: 1_500,  baseCost: 1_500_000,   unlockAt: 5_000_000 },
-  { id: 'megacorp',  name: 'Мегакорпорация',          icon: '💼', desc: 'Транснациональный гигант работает на каждый ваш тап.',             type: 'tap', tapBonus: 7_500,  baseCost: 12_000_000,  unlockAt: 50_000_000 },
-  { id: 'techpark',  name: 'Технополис',              icon: '🌆', desc: 'Целый город, заточённый на максимизацию тапа.',                     type: 'tap', tapBonus: 40_000, baseCost: 100_000_000, unlockAt: 500_000_000 },
+  { id: 'desk',      name: 'Рабочее место',          icon: 'monitor',    desc: 'Простой стол и энтузиазм. С этого всё начинается.',               type: 'tap', tapBonus: 1,      baseCost: 50,          unlockAt: 0 },
+  { id: 'workshop',  name: 'Мастерская',              icon: 'wrench',     desc: 'Инструменты, навыки, дисциплина.',                                  type: 'tap', tapBonus: 5,      baseCost: 400,         unlockAt: 500 },
+  { id: 'studio',    name: 'Студия',                  icon: 'mic',        desc: 'Профессиональное рабочее пространство.',                            type: 'tap', tapBonus: 20,     baseCost: 3_000,       unlockAt: 5_000 },
+  { id: 'office',    name: 'Офис',                    icon: 'building',   desc: 'Команда, которая кратно усиливает каждый тап.',                    type: 'tap', tapBonus: 80,     baseCost: 25_000,      unlockAt: 50_000 },
+  { id: 'campus',    name: 'Технокампус',             icon: 'graduation', desc: 'R&D-центр. Каждый тап — технологический прорыв.',                   type: 'tap', tapBonus: 350,    baseCost: 200_000,     unlockAt: 500_000 },
+  { id: 'factory',   name: 'Завод',                   icon: 'factory',    desc: 'Промышленные мощности усиливают каждое нажатие.',                   type: 'tap', tapBonus: 1_500,  baseCost: 1_500_000,   unlockAt: 5_000_000 },
+  { id: 'megacorp',  name: 'Мегакорпорация',          icon: 'briefcase',  desc: 'Транснациональный гигант работает на каждый ваш тап.',             type: 'tap', tapBonus: 7_500,  baseCost: 12_000_000,  unlockAt: 50_000_000 },
+  { id: 'techpark',  name: 'Технополис',              icon: 'city',       desc: 'Целый город, заточённый на максимизацию тапа.',                     type: 'tap', tapBonus: 40_000, baseCost: 100_000_000, unlockAt: 500_000_000 },
   // ── Passive-бизнесы ───────────────────────────────────────────────────────
-  { id: 'apartment', name: 'Сдача квартиры',          icon: '🏠', desc: 'Арендаторы платят раз в час. Скромно, но без усилий.',             type: 'passive', baseIncome: 800,        interval: 3_600,  baseCost: 5_000,       unlockAt: 2_000 },
-  { id: 'farm',      name: 'Ферма',                   icon: '🌾', desc: 'Земля кормит стабильно. Урожай раз в час.',                        type: 'passive', baseIncome: 5_000,      interval: 3_600,  baseCost: 50_000,      unlockAt: 20_000 },
-  { id: 'mall',      name: 'Торговый центр',           icon: '🛒', desc: 'Сотни магазинов работают. Выплата раз в 2 часа.',                  type: 'passive', baseIncome: 35_000,     interval: 7_200,  baseCost: 350_000,     unlockAt: 200_000 },
-  { id: 'plant',     name: 'Промышленный завод',       icon: '⚙️', desc: 'Производство круглосуточно. Отчисление каждые 2 часа.',            type: 'passive', baseIncome: 250_000,    interval: 7_200,  baseCost: 2_500_000,   unlockAt: 2_000_000 },
-  { id: 'oilfield',  name: 'Нефтяное месторождение',  icon: '⛽', desc: 'Нефть качается. Серьёзная выплата раз в 4 часа.',                  type: 'passive', baseIncome: 2_000_000,  interval: 14_400, baseCost: 20_000_000,  unlockAt: 20_000_000 },
-  { id: 'satellite', name: 'Спутниковая сеть',        icon: '🛰️', desc: 'Орбитальная инфраструктура. Огромный поток раз в 8 часов.',        type: 'passive', baseIncome: 20_000_000, interval: 28_800, baseCost: 200_000_000, unlockAt: 200_000_000 },
+  { id: 'apartment', name: 'Сдача квартиры',          icon: 'home',       desc: 'Арендаторы платят раз в час. Скромно, но без усилий.',             type: 'passive', baseIncome: 800,        interval: 3_600,  baseCost: 5_000,       unlockAt: 2_000 },
+  { id: 'farm',      name: 'Ферма',                   icon: 'wheat',      desc: 'Земля кормит стабильно. Урожай раз в час.',                        type: 'passive', baseIncome: 5_000,      interval: 3_600,  baseCost: 50_000,      unlockAt: 20_000 },
+  { id: 'mall',      name: 'Торговый центр',           icon: 'cart',       desc: 'Сотни магазинов работают. Выплата раз в 2 часа.',                  type: 'passive', baseIncome: 35_000,     interval: 7_200,  baseCost: 350_000,     unlockAt: 200_000 },
+  { id: 'plant',     name: 'Промышленный завод',       icon: 'gear',       desc: 'Производство круглосуточно. Отчисление каждые 2 часа.',            type: 'passive', baseIncome: 250_000,    interval: 7_200,  baseCost: 2_500_000,   unlockAt: 2_000_000 },
+  { id: 'oilfield',  name: 'Нефтяное месторождение',  icon: 'fuel',       desc: 'Нефть качается. Серьёзная выплата раз в 4 часа.',                  type: 'passive', baseIncome: 2_000_000,  interval: 14_400, baseCost: 20_000_000,  unlockAt: 20_000_000 },
+  { id: 'satellite', name: 'Спутниковая сеть',        icon: 'satellite',  desc: 'Орбитальная инфраструктура. Огромный поток раз в 8 часов.',        type: 'passive', baseIncome: 20_000_000, interval: 28_800, baseCost: 200_000_000, unlockAt: 200_000_000 },
 ];
 
 // ── Модуль апгрейдов ──────────────────────────────────────────────────────
@@ -125,9 +125,9 @@ const Upgrades = {
           const hdr = document.createElement('div');
           hdr.id        = sectionId;
           hdr.className = 'tier-header';
-          hdr.textContent = upgrade.type === 'tap'
-            ? '👆 Улучшения тапа — бонус к каждому нажатию'
-            : '🏢 Пассивный доход — работает пока вас нет';
+          hdr.innerHTML = upgrade.type === 'tap'
+            ? `${icon('tap')} Улучшения тапа — бонус к каждому нажатию`
+            : `${icon('building')} Пассивный доход — работает пока вас нет`;
           list.appendChild(hdr);
         }
       }
@@ -143,25 +143,25 @@ const Upgrades = {
 
         if (upgrade.type === 'tap') {
           item.innerHTML = `
-            <div class="upgrade-icon" aria-hidden="true">${upgrade.icon}</div>
+            <div class="upgrade-icon" aria-hidden="true">${icon(upgrade.icon, 'xl')}</div>
             <div class="upgrade-info">
               <div class="upgrade-name">${upgrade.name}</div>
               <div class="upgrade-desc">${upgrade.desc}</div>
               <div class="upgrade-stats">
                 <span class="upgrade-level">Ур. <strong class="lvl-num">0</strong></span>
                 <span class="upgrade-tap-bonus">
-                  👆 +<span class="bonus-num">0</span>/тап
+                  ${icon('tap')} +<span class="bonus-num">0</span>/тап
                 </span>
               </div>
             </div>
             <div class="upgrade-buy">
-              <div class="upgrade-cost">🪙 <span class="cost-num"></span></div>
+              <div class="upgrade-cost">${icon('coin')} <span class="cost-num"></span></div>
               <button class="buy-btn" type="button"></button>
             </div>
           `;
         } else {
           item.innerHTML = `
-            <div class="upgrade-icon" aria-hidden="true">${upgrade.icon}</div>
+            <div class="upgrade-icon" aria-hidden="true">${icon(upgrade.icon, 'xl')}</div>
             <div class="upgrade-info">
               <div class="upgrade-name">${upgrade.name}</div>
               <div class="upgrade-desc">${upgrade.desc}</div>
@@ -172,7 +172,7 @@ const Upgrades = {
                   </div>
                   <span class="upgrade-timer-label">—</span>
                 </div>
-                <button class="collect-btn hidden" type="button">💰 Забрать</button>
+                <button class="collect-btn hidden" type="button">${icon('money')} Забрать</button>
               </div>
               <div class="upgrade-stats">
                 <span class="upgrade-level">Ур. <strong class="lvl-num">0</strong></span>
@@ -183,7 +183,7 @@ const Upgrades = {
               </div>
             </div>
             <div class="upgrade-buy">
-              <div class="upgrade-cost">🪙 <span class="cost-num"></span></div>
+              <div class="upgrade-cost">${icon('coin')} <span class="cost-num"></span></div>
               <button class="buy-btn" type="button"></button>
             </div>
           `;
@@ -195,9 +195,9 @@ const Upgrades = {
       // ── Обновление данных ──
 
       item.querySelector('.lvl-num').textContent  = upgrade.level;
-      item.querySelector('.cost-num').textContent = unlocked
+      item.querySelector('.cost-num').innerHTML = unlocked
         ? formatNumber(cost)
-        : `🔒 ${formatNumber(upgrade.unlockAt)}`;
+        : `${icon('lock')} ${formatNumber(upgrade.unlockAt)}`;
 
       const btn = item.querySelector('.buy-btn');
       if (!unlocked) {

@@ -7,6 +7,20 @@
 /* ── Утилита: скрытие элементов ─────────────────────────────── */
 .hidden { display: none !important; }
 
+/* ── SVG-иконки ─────────────────────────────────────────────── */
+.icon {
+  display:        inline-block;
+  width:          1em;
+  height:         1em;
+  vertical-align: -0.15em;
+  flex-shrink:    0;
+}
+.icon-sm { width: 0.8em;  height: 0.8em; }
+.icon-lg { width: 1.4em;  height: 1.4em; }
+.icon-xl { width: 2rem;   height: 2rem; }
+
+.upgrade-icon .icon { width: 2rem; height: 2rem; }
+
 /* ── Переменные ─────────────────────────────────────────────── */
 :root {
   --bg-base:        #0a0a18;

@@ -65,7 +65,7 @@ function updateNavAuth() {
   if (isLoggedIn()) {
     const name = getUsername() || '—';
     actionsEl.innerHTML = `
-      <span class="nav-user">👤 ${escHtml(name)}</span>
+      <span class="nav-user">${icon('user')} ${escHtml(name)}</span>
       <a href="/game" class="btn btn-primary">▶ Играть</a>
     `;
   } else {
@@ -180,12 +180,11 @@ async function loadLeaderboard() {
       el.innerHTML = '<div class="mini-lb-empty">Пока никого нет 🙁</div>';
       return;
     }
-    const medals = ['🥇', '🥈', '🥉'];
     el.innerHTML = players.slice(0, 10).map((p, i) => `
       <div class="mini-lb-row">
-        <span class="mini-lb-rank">${medals[i] ?? (i + 1)}</span>
+        <span class="mini-lb-rank">${i + 1}</span>
         <span class="mini-lb-name">${escHtml(p.username)}</span>
-        <span class="mini-lb-score">${fmtNum(p.totalEarned)} 🪙</span>
+        <span class="mini-lb-score">${fmtNum(p.totalEarned)} ${icon('coin')}</span>
       </div>
     `).join('');
   } catch {

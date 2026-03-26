@@ -22,7 +22,7 @@ const BUSINESSES_TAP = [
   {
     id:       'desk',
     name:     'Рабочее место',
-    icon:     '🖥️',
+    icon:     'monitor',
     desc:     'Простой стол и энтузиазм. Начало всех начал.',
     type:     'tap',
     tapBonus: 1,
@@ -32,7 +32,7 @@ const BUSINESSES_TAP = [
   {
     id:       'workshop',
     name:     'Мастерская',
-    icon:     '🔧',
+    icon:     'wrench',
     desc:     'Инструменты, навыки, дисциплина — и тап становится мощнее.',
     type:     'tap',
     tapBonus: 5,
@@ -42,7 +42,7 @@ const BUSINESSES_TAP = [
   {
     id:       'studio',
     name:     'Студия',
-    icon:     '🎙️',
+    icon:     'mic',
     desc:     'Профессиональное рабочее пространство. Каждый тап — продукт.',
     type:     'tap',
     tapBonus: 20,
@@ -52,7 +52,7 @@ const BUSINESSES_TAP = [
   {
     id:       'office',
     name:     'Офис',
-    icon:     '🏢',
+    icon:     'building',
     desc:     'Команда, которая кратно усиливает каждое ваше действие.',
     type:     'tap',
     tapBonus: 80,
@@ -62,7 +62,7 @@ const BUSINESSES_TAP = [
   {
     id:       'campus',
     name:     'Технокампус',
-    icon:     '🎓',
+    icon:     'graduation',
     desc:     'R&D-центр с сотнями специалистов. Тап превращается в прорыв.',
     type:     'tap',
     tapBonus: 350,
@@ -72,7 +72,7 @@ const BUSINESSES_TAP = [
   {
     id:       'factory',
     name:     'Завод',
-    icon:     '🏭',
+    icon:     'factory',
     desc:     'Промышленные мощности на службе каждого нажатия.',
     type:     'tap',
     tapBonus: 1_500,
@@ -82,7 +82,7 @@ const BUSINESSES_TAP = [
   {
     id:       'megacorp',
     name:     'Мегакорпорация',
-    icon:     '💼',
+    icon:     'briefcase',
     desc:     'Транснациональный гигант. Один тап — тысячи людей работают на вас.',
     type:     'tap',
     tapBonus: 7_500,
@@ -92,7 +92,7 @@ const BUSINESSES_TAP = [
   {
     id:       'techpark',
     name:     'Технополис',
-    icon:     '🌆',
+    icon:     'city',
     desc:     'Целый город, заточённый на максимизацию прибыли с каждого тапа.',
     type:     'tap',
     tapBonus: 40_000,
@@ -107,7 +107,7 @@ const BUSINESSES_PASSIVE = [
   {
     id:          'apartment',
     name:        'Сдача квартиры',
-    icon:        '🏠',
+    icon:        'home',
     desc:        'Арендаторы платят раз в час. Скромно, но без усилий.',
     type:        'passive',
     baseIncome:  800,
@@ -118,7 +118,7 @@ const BUSINESSES_PASSIVE = [
   {
     id:          'farm',
     name:        'Ферма',
-    icon:        '🌾',
+    icon:        'wheat',
     desc:        'Земля кормит стабильно. Раз в час — урожай.',
     type:        'passive',
     baseIncome:  5_000,
@@ -129,7 +129,7 @@ const BUSINESSES_PASSIVE = [
   {
     id:          'mall',
     name:        'Торговый центр',
-    icon:        '🛒',
+    icon:        'cart',
     desc:        'Сотни магазинов работают, пока вы тапаете. Выплата раз в 2 часа.',
     type:        'passive',
     baseIncome:  35_000,
@@ -140,7 +140,7 @@ const BUSINESSES_PASSIVE = [
   {
     id:          'plant',
     name:        'Промышленный завод',
-    icon:        '⚙️',
+    icon:        'gear',
     desc:        'Производство работает круглосуточно. Отчисление каждые 2 часа.',
     type:        'passive',
     baseIncome:  250_000,
@@ -151,7 +151,7 @@ const BUSINESSES_PASSIVE = [
   {
     id:          'oilfield',
     name:        'Нефтяное месторождение',
-    icon:        '⛽',
+    icon:        'fuel',
     desc:        'Нефть качается, деньги капают. Раз в 4 часа — серьёзная выплата.',
     type:        'passive',
     baseIncome:  2_000_000,
@@ -162,7 +162,7 @@ const BUSINESSES_PASSIVE = [
   {
     id:          'satellite',
     name:        'Спутниковая сеть',
-    icon:        '🛰️',
+    icon:        'satellite',
     desc:        'Орбитальная инфраструктура. Раз в 8 часов — огромный поток монет.',
     type:        'passive',
     baseIncome:  20_000_000,

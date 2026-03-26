@@ -235,7 +235,8 @@ const Game = {
     const logoutEl = document.getElementById('logout-btn');
     if (!infoEl || !logoutEl) return;
 
-    infoEl.textContent = username ? `👤 ${username}` : '👤 Гость';
+    infoEl.innerHTML = username ? `${icon('user')} ${username}` : `${icon('user')} Гость`;
+    infoEl.dataset.username = username || '';
     infoEl.classList.remove('hidden');
     logoutEl.classList.toggle('hidden', !username || this._isGuest);
   },
@@ -326,8 +327,8 @@ const Game = {
 
   _syncSoundBtn(btn) {
     if (!btn) return;
-    btn.textContent = this.state.soundEnabled ? '🔊' : '🔇';
-    btn.title       = this.state.soundEnabled ? 'Выключить звук' : 'Включить звук';
+    btn.innerHTML = this.state.soundEnabled ? icon('sound-on') : icon('sound-off');
+    btn.title     = this.state.soundEnabled ? 'Выключить звук' : 'Включить звук';
   },
 
   // ── Статистика ────────────────────────────────────────────────────────────
@@ -335,50 +336,50 @@ const Game = {
   _showStats() {
     const activeTap = this.state.upgrades
       .filter(u => u.type === 'tap' && u.level > 0)
-      .map(u => `<li>${u.icon} ${u.name} — ур. <strong>${u.level}</strong>, +${formatNumber(u.tapBonus * u.level)}/тап</li>`)
+      .map(u => `<li>${icon(u.icon)} ${u.name} — ур. <strong>${u.level}</strong>, +${formatNumber(u.tapBonus * u.level)}/тап</li>`)
       .join('') || '<li>Нет улучшений тапа</li>';
 
     const activePassive = this.state.upgrades
       .filter(u => u.type === 'passive' && u.level > 0)
-      .map(u => `<li>${u.icon} ${u.name} — ур. <strong>${u.level}</strong>, ${formatNumber(u.baseIncome * u.level)} / ${formatInterval(u.interval)}</li>`)
+      .map(u => `<li>${icon(u.icon)} ${u.name} — ур. <strong>${u.level}</strong>, ${formatNumber(u.baseIncome * u.level)} / ${formatInterval(u.interval)}</li>`)
       .join('') || '<li>Нет пассивных бизнесов</li>';
 
     document.getElementById('stats-content').innerHTML = `
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-icon">👆</div>
+          <div class="stat-icon">${icon('tap', 'lg')}</div>
           <div class="stat-label">Тапов</div>
           <div class="stat-value">${formatNumber(this.state.totalTaps)}</div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">⚡</div>
+          <div class="stat-icon">${icon('bolt', 'lg')}</div>
           <div class="stat-label">Сила тапа</div>
           <div class="stat-value">+${formatNumber(this.state.tapPower)}/тап</div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">💰</div>
+          <div class="stat-icon">${icon('money', 'lg')}</div>
           <div class="stat-label">Всего заработано</div>
-          <div class="stat-value">${formatNumber(this.state.totalEarned)} 🪙</div>
+          <div class="stat-value">${formatNumber(this.state.totalEarned)} ${icon('coin')}</div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">🏢</div>
+          <div class="stat-icon">${icon('building', 'lg')}</div>
           <div class="stat-label">Пассивный доход</div>
-          <div class="stat-value">${formatNumber(Upgrades.getPassiveIncomePerHour())} 🪙/ч</div>
+          <div class="stat-value">${formatNumber(Upgrades.getPassiveIncomePerHour())} ${icon('coin')}/ч</div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">🔥</div>
+          <div class="stat-icon">${icon('fire', 'lg')}</div>
           <div class="stat-label">Дней подряд</div>
           <div class="stat-value">${this.state.loginStreak}</div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">😴</div>
+          <div class="stat-icon">${icon('sleep', 'lg')}</div>
           <div class="stat-label">Рекорд оффлайн</div>
-          <div class="stat-value">${formatNumber(this.state.offlineRecord)} 🪙</div>
+          <div class="stat-value">${formatNumber(this.state.offlineRecord)} ${icon('coin')}</div>
         </div>
       </div>
-      <h3 class="businesses-title">👆 Улучшения тапа</h3>
+      <h3 class="businesses-title">${icon('tap')} Улучшения тапа</h3>
       <ul class="businesses-list">${activeTap}</ul>
-      <h3 class="businesses-title" style="margin-top:14px">🏢 Пассивный доход</h3>
+      <h3 class="businesses-title" style="margin-top:14px">${icon('building')} Пассивный доход</h3>
       <ul class="businesses-list">${activePassive}</ul>
     `;
 
@@ -407,18 +408,18 @@ const Game = {
       return;
     }
 
-    const myName = document.getElementById('user-info')?.textContent?.replace('👤 ', '') ?? '';
+    const myName = document.getElementById('user-info')?.dataset?.username ?? '';
 
     const rows = players.map(p => {
       const isMe = !this._isGuest && p.username === myName;
       return `
         <tr class="${isMe ? 'lb-me' : ''}">
-          <td class="lb-rank">${p.rank <= 3 ? ['🥇','🥈','🥉'][p.rank - 1] : p.rank}</td>
+          <td class="lb-rank">${p.rank}</td>
           <td class="lb-name">${escapeHtml(p.username)}${isMe ? ' <span class="lb-you">вы</span>' : ''}</td>
           <td class="lb-num">${formatNumber(p.totalEarned)}</td>
           <td class="lb-num">${formatNumber(p.totalTaps)}</td>
           <td class="lb-num">${p.businessCount}</td>
-          <td class="lb-num lb-streak">${p.loginStreak} 🔥</td>
+          <td class="lb-num lb-streak">${p.loginStreak} ${icon('fire')}</td>
         </tr>
       `;
     }).join('');
@@ -430,9 +431,9 @@ const Game = {
             <tr>
               <th>#</th>
               <th>Игрок</th>
-              <th>Заработано 🪙</th>
-              <th>Тапов 👆</th>
-              <th>Бизнесов 🏢</th>
+              <th>Заработано ${icon('coin')}</th>
+              <th>Тапов ${icon('tap')}</th>
+              <th>Бизнесов ${icon('building')}</th>
               <th>Стрик</th>
             </tr>
           </thead>

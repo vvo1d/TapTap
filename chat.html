@@ -233,10 +233,10 @@
 
 <!-- Навбар -->
 <nav id="navbar" aria-label="Навигация">
-  <a href="/" class="nav-logo">🪙 ТапТап<span>Миллионер</span></a>
+  <a href="/" class="nav-logo"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 8h8M8 12h8M12 12v6"/></svg> ТапТап<span>Миллионер</span></a>
   <div class="nav-links">
-    <a href="/" class="nav-link">🏠 Главная</a>
-    <a href="/game" class="nav-link">🎮 Игра</a>
+    <a href="/" class="nav-link"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Главная</a>
+    <a href="/game" class="nav-link"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="12" rx="4"/><path d="M7 11v4M5 13h4M16 12h2M15.5 13h.01"/></svg> Игра</a>
   </div>
   <div class="nav-actions" id="nav-actions">
     <button class="btn btn-outline" id="nav-login-btn">Войти</button>
@@ -246,7 +246,7 @@
 
 <!-- Чат -->
 <div class="chat-page">
-  <h1 class="chat-page-title">💬 Чат игроков</h1>
+  <h1 class="chat-page-title"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2v10z"/></svg> Чат игроков</h1>
 
   <div class="chat-container">
     <div class="chat-online">
@@ -273,7 +273,7 @@
 <!-- Модалка авторизации -->
 <div id="auth-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="auth-title">
   <div class="modal-content">
-    <div class="auth-logo">🪙</div>
+    <div class="auth-logo"><svg class="icon icon-xl" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 8h8M8 12h8M12 12v6"/></svg></div>
     <h2 id="auth-title" class="auth-title">ТапТапМиллионер</h2>
     <p class="auth-subtitle">Войди, чтобы писать в чат</p>
 
@@ -319,6 +319,7 @@
   </div>
 </div>
 
+<script src="js/icons.js"></script>
 <script>
 const TOKEN_KEY = 'taptap_jwt';
 const PAGE_SIZE = 40;
@@ -364,7 +365,7 @@ function updateNav() {
   if (isLoggedIn()) {
     const name = parseJwt(getToken())?.username || '—';
     el.innerHTML = `
-      <span class="nav-user">👤 ${escHtml(name)}</span>
+      <span class="nav-user">${icon('user')} ${escHtml(name)}</span>
       <a href="/game" class="btn btn-primary">▶ Играть</a>
     `;
   }

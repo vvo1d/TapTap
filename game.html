@@ -22,7 +22,7 @@
 
     <!-- Монеты -->
     <div id="coin-display">
-      <span id="coin-icon" aria-hidden="true">🪙</span>
+      <span id="coin-icon" aria-hidden="true"><svg class="icon icon-lg" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 8h8M8 12h8M12 12v6"/></svg></span>
       <span id="coin-count" aria-live="polite">0</span>
       <span id="coin-label">ТапКойнов</span>
     </div>
@@ -30,20 +30,22 @@
     <!-- Доходы: тап + пассив -->
     <div id="income-wrap">
       <div id="tap-display" title="Монет за один тап">
-        👆 <span id="tap-power">1</span>/тап
+        <svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3a1 1 0 012 0v7M11 8a1 1 0 012 0v2M13 9a1 1 0 012 0v3M15 11a1 1 0 012 0v4a6 6 0 01-6 6H9a6 6 0 01-6-6v-2a1 1 0 012 0v2"/><path d="M5 11V3a1 1 0 012 0v8"/></svg>
+        <span id="tap-power">1</span>/тап
       </div>
       <div id="income-display" title="Пассивный доход в час">
-        🏢 <span id="income-rate">0</span>/ч
+        <svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="1"/><path d="M8 6h2M8 10h2M8 14h2M14 6h2M14 10h2M14 14h2M10 22v-4h4v4"/></svg>
+        <span id="income-rate">0</span>/ч
       </div>
     </div>
 
     <!-- Кнопки управления -->
     <div id="header-actions">
       <span id="user-info" class="header-user hidden"></span>
-      <button id="sound-btn"       class="header-btn" title="Звук">🔊</button>
-      <a href="/chat" class="header-btn" title="Чат игроков">💬 Чат</a>
-      <button id="leaderboard-btn" class="header-btn">🏆 Топ</button>
-      <button id="stats-btn"       class="header-btn">📊 Статы</button>
+      <button id="sound-btn"       class="header-btn" title="Звук"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14"/></svg></button>
+      <a href="/chat" class="header-btn" title="Чат игроков">Чат</a>
+      <button id="leaderboard-btn" class="header-btn">Топ</button>
+      <button id="stats-btn"       class="header-btn">Статы</button>
       <button id="logout-btn"      class="header-btn hidden">Выйти</button>
     </div>
 
@@ -71,7 +73,7 @@
     </section>
 
     <aside id="upgrades-panel" aria-label="Список бизнесов">
-      <h2>🏢 Бизнесы</h2>
+      <h2><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="1"/><path d="M8 6h2M8 10h2M8 14h2M14 6h2M14 10h2M14 14h2M10 22v-4h4v4"/></svg> Бизнесы</h2>
       <div id="upgrades-list" role="list"></div>
     </aside>
 
@@ -84,7 +86,7 @@
      ══════════════════════════════════════════════════════════ -->
 <div id="auth-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="auth-title">
   <div class="modal-content auth-modal-content">
-    <div class="auth-logo">🪙</div>
+    <div class="auth-logo"><svg class="icon icon-xl" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 8h8M8 12h8M12 12v6"/></svg></div>
     <h2 id="auth-title">ТапТапМиллионер</h2>
     <p class="auth-subtitle">Сохраняй прогресс в аккаунте</p>
 
@@ -146,7 +148,7 @@
      ══════════════════════════════════════════════════════════ -->
 <div id="stats-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="stats-title">
   <div class="modal-content">
-    <h2 id="stats-title">📊 Статистика</h2>
+    <h2 id="stats-title"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M6 20V14M12 20V4M18 20V10"/></svg> Статистика</h2>
     <div id="stats-content"></div>
     <button id="close-stats" class="modal-btn">Закрыть</button>
   </div>
@@ -157,7 +159,7 @@
      ══════════════════════════════════════════════════════════ -->
 <div id="leaderboard-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="lb-title">
   <div class="modal-content leaderboard-modal-content">
-    <h2 id="lb-title">🏆 Таблица лидеров</h2>
+    <h2 id="lb-title"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4a2 2 0 000 4h2m12-4h2a2 2 0 010 4h-2"/><path d="M6 5h12v8a6 6 0 01-12 0V5z"/><path d="M9 21h6M12 17v4"/></svg> Таблица лидеров</h2>
     <div id="lb-body">
       <div class="lb-loading">Загрузка…</div>
     </div>
@@ -170,13 +172,13 @@
      ══════════════════════════════════════════════════════════ -->
 <div id="offline-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="offline-title">
   <div class="modal-content">
-    <h2 id="offline-title">😴 Пока вас не было…</h2>
+    <h2 id="offline-title"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg> Пока вас не было…</h2>
     <div class="offline-info">
       <p>Вы отсутствовали <strong id="offline-time">—</strong></p>
-      <span class="offline-earned">+<span id="offline-earned">0</span> 🪙</span>
+      <span class="offline-earned">+<span id="offline-earned">0</span> <svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 8h8M8 12h8M12 12v6"/></svg></span>
       <p>Пассивные бизнесы работали без вас!</p>
     </div>
-    <button id="close-offline" class="modal-btn">🎉 Забрать!</button>
+    <button id="close-offline" class="modal-btn"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Забрать!</button>
   </div>
 </div>
 
@@ -185,13 +187,13 @@
      ══════════════════════════════════════════════════════════ -->
 <div id="daily-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="daily-title">
   <div class="modal-content">
-    <h2 id="daily-title">🔥 Ежедневный бонус!</h2>
+    <h2 id="daily-title"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c0 4-5 6-5 10a5 5 0 0010 0c0-4-5-6-5-10z"/><path d="M10 15.5A2 2 0 0012 17a2 2 0 002-1.5c0-1.5-2-3-2-3s-2 1.5-2 1.5z"/></svg> Ежедневный бонус!</h2>
     <div class="offline-info">
       <p>День <strong id="daily-streak">1</strong> подряд</p>
-      <span class="offline-earned">+<span id="daily-earned">0</span> 🪙</span>
+      <span class="offline-earned">+<span id="daily-earned">0</span> <svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 8h8M8 12h8M12 12v6"/></svg></span>
       <p>Заходи каждый день — бонус растёт до ×30!</p>
     </div>
-    <button id="close-daily" class="modal-btn">🎉 Забрать!</button>
+    <button id="close-daily" class="modal-btn"><svg class="icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Забрать!</button>
   </div>
 </div>
 
@@ -201,6 +203,7 @@
 <!-- ══════════════════════════════════════════════════════════
      СКРИПТЫ (порядок важен!)
      ══════════════════════════════════════════════════════════ -->
+<script src="js/icons.js"></script>
 <script src="js/api.js"></script>
 <script src="js/save.js"></script>
 <script src="js/auth.js"></script>
