@@ -224,4 +224,34 @@ function calcOfflineIncome(levels, nextPayouts, lastSaveTime) {
   };
 }
 
-module.exports = { BUSINESSES, BUSINESSES_TAP, BUSINESSES_PASSIVE, MAX_OFFLINE_SECONDS, calcOfflineIncome };
+/**
+ * Считает суммарную стоимость всех купленных уровней для набора levels.
+ * Используется для серверной валидации totalSpent.
+ */
+function calcExpectedTotalSpent(levels) {
+  let total = 0;
+  BUSINESSES.forEach((biz, i) => {
+    const lvl = levels[i] || 0;
+    for (let l = 0; l < lvl; l++) {
+      total += Math.ceil(biz.baseCost * Math.pow(1.15, l));
+    }
+  });
+  return total;
+}
+
+/**
+ * Возвращает максимальную силу тапа для набора levels.
+ */
+function calcTapPower(levels) {
+  let power = 1;
+  BUSINESSES.forEach((biz, i) => {
+    if (biz.type === 'tap') power += (biz.tapBonus || 0) * (levels[i] || 0);
+  });
+  return power;
+}
+
+module.exports = {
+  BUSINESSES, BUSINESSES_TAP, BUSINESSES_PASSIVE,
+  MAX_OFFLINE_SECONDS, calcOfflineIncome,
+  calcExpectedTotalSpent, calcTapPower,
+};

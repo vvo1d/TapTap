@@ -9,7 +9,7 @@
 const express     = require('express');
 const requireAuth = require('../middleware/auth');
 const db          = require('../db');
-const { BUSINESSES, calcOfflineIncome } = require('../businesses');
+const { BUSINESSES, calcOfflineIncome, calcExpectedTotalSpent, calcTapPower } = require('../businesses');
 
 const router = express.Router();
 
@@ -143,6 +143,9 @@ router.get('/state', requireAuth, (req, res) => {
 
 // ── Сохранение состояния ─────────────────────────────────────────────────
 
+const MAX_LEVEL      = 1000; // жёсткий потолок уровня бизнеса
+const MAX_TAPS_PER_S = 20;   // физически достижимый максимум тапов/сек
+
 router.post('/save', requireAuth, (req, res) => {
   try {
     const {
@@ -150,6 +153,7 @@ router.post('/save', requireAuth, (req, res) => {
       offlineRecord, soundEnabled, upgradeLevels, nextPayouts,
     } = req.body ?? {};
 
+    // ── Базовая проверка типов ──────────────────────────────────────────
     if (typeof coins !== 'number' || coins < 0 || !Number.isFinite(coins)) {
       return res.status(400).json({ error: 'Некорректное значение coins' });
     }
@@ -157,30 +161,74 @@ router.post('/save', requireAuth, (req, res) => {
       return res.status(400).json({ error: 'upgradeLevels должен быть массивом' });
     }
 
+    // ── Нормализация уровней (только числа >= 0, не выше MAX_LEVEL) ────
     const levels = BUSINESSES.map((_, i) => {
       const v = upgradeLevels[i];
-      return (typeof v === 'number' && v >= 0) ? Math.floor(v) : 0;
+      return (typeof v === 'number' && v >= 0) ? Math.min(Math.floor(v), MAX_LEVEL) : 0;
     });
 
-    // Нормализуем сохранённые таймеры выплат
+    // ── Загружаем текущее состояние из БД ──────────────────────────────
+    const currentRow = db.stmt.findState.get(req.userId);
+
+    let prevLevels = [];
+    try { prevLevels = JSON.parse(currentRow?.upgrade_levels || '[]'); } catch {}
+    while (prevLevels.length < BUSINESSES.length) prevLevels.push(0);
+
+    // ── Уровни могут только расти ──────────────────────────────────────
+    for (let i = 0; i < BUSINESSES.length; i++) {
+      if (levels[i] < prevLevels[i]) levels[i] = prevLevels[i];
+    }
+
+    // ── Проверка totalSpent относительно реальной стоимости покупок ────
+    // Если totalSpent меньше суммарной стоимости купленных уровней — обман
+    const expectedSpent = calcExpectedTotalSpent(levels);
+    const safeTotalSpent = Math.max(Math.floor(totalSpent || 0), expectedSpent);
+
+    // ── Проверка согласованности: earned >= coins + spent ──────────────
+    const safeTotalEarned = Math.max(Math.floor(totalEarned || 0), Math.floor(coins) + safeTotalSpent);
+
+    // ── Проверка скорости накопления монет ─────────────────────────────
+    // Считаем максимально возможный заработок с момента последнего сохранения
+    const prevTotalEarned  = currentRow?.total_earned ?? 0;
+    const lastSaveTime     = currentRow?.last_save_time ?? Date.now();
+    const elapsedSec       = Math.max((Date.now() - lastSaveTime) / 1000, 0);
+
+    const prevTapPower     = calcTapPower(prevLevels);
+    const maxFromTaps      = prevTapPower * MAX_TAPS_PER_S * elapsedSec;
+
+    // Максимальный пассивный доход за прошедшее время
+    const maxPassive = BUSINESSES.reduce((sum, biz, i) => {
+      if (biz.type !== 'passive') return sum;
+      const lvl = prevLevels[i] || 0;
+      if (!lvl) return sum;
+      const payouts = Math.ceil(elapsedSec / biz.interval);
+      return sum + payouts * biz.baseIncome * lvl;
+    }, 0);
+
+    const maxPossibleDelta = maxFromTaps + maxPassive + 50_000; // +50K буфер (бонусы, погрешность)
+    const earnedDelta      = safeTotalEarned - prevTotalEarned;
+
+    if (earnedDelta > maxPossibleDelta * 2) {
+      console.warn(`[CHEAT DETECTED] userId=${req.userId} earnedDelta=${earnedDelta} maxPossible=${maxPossibleDelta} elapsed=${elapsedSec}s`);
+      return res.status(400).json({ error: 'Недопустимое значение монет' });
+    }
+
+    // ── Нормализация таймеров ──────────────────────────────────────────
     const normalizedNextPayouts = BUSINESSES.map((_, i) => {
       const v = Array.isArray(nextPayouts) ? nextPayouts[i] : 0;
       return (typeof v === 'number' && v > 0) ? Math.floor(v) : 0;
     });
 
-    const currentRow  = db.stmt.findState.get(req.userId);
+    const todayStr    = new Date().toISOString().slice(0, 10);
     const prevRecord  = currentRow?.offline_record ?? 0;
     const finalRecord = Math.max(prevRecord, offlineRecord || 0);
-
-    // Сохраняем дату входа из текущей строки (не перетираем, если не менялась)
-    const todayStr = new Date().toISOString().slice(0, 10);
 
     db.stmt.upsertState.run({
       userId:        req.userId,
       coins:         Math.floor(coins),
-      totalEarned:   Math.floor(totalEarned  || 0),
+      totalEarned:   safeTotalEarned,
       totalTaps:     Math.floor(totalTaps    || 0),
-      totalSpent:    Math.floor(totalSpent   || 0),
+      totalSpent:    safeTotalSpent,
       offlineRecord: Math.floor(finalRecord),
       soundEnabled:  soundEnabled ? 1 : 0,
       upgradeLevels: JSON.stringify(levels),
